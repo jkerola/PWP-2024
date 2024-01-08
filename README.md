@@ -22,3 +22,20 @@ pip3 install pre-commit
 cd /path/to/repo
 pre-commit install
 ```
+
+# Development
+
+API is build with [nestjs](nestjs.com). Node version 20/LTS required.
+
+# Usage
+
+Easiest way to get this up and running is to use podman/docker:
+
+```shell
+podman-compose up -d
+# Or docker
+docker compose up -d
+
+# then make requests to localhost:3000
+curl -X GET localhost:3000
+```
