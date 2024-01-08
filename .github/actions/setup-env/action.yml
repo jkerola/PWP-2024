@@ -1,0 +1,11 @@
+name: Setup environment
+description: Setup node env and dependencies
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 18
+    - run: npm ci
+      shell: bash
