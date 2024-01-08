@@ -38,6 +38,9 @@ jobs:
   analyze-code:
     name: No code smells
     runs-on: [ubuntu-latest]
+    defaults:
+      run:
+        working-directory: ./api
     steps:
       - uses: actions/checkout@v4
       - name: Setup environment
@@ -47,6 +50,9 @@ jobs:
   run-tests:
     name: Tests pass
     runs-on: [ubuntu-latest]
+    defaults:
+      run:
+        working-directory: ./api
     steps:
       - uses: actions/checkout@v4
       - name: Setup environment
