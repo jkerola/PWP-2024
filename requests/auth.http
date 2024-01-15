@@ -1,0 +1,30 @@
+@host=http://localhost:3000/auth
+@username={{API_USERNAME}}
+@password={{API_PASSWORD}}
+
+###
+# register
+POST /register
+Content-Type: application/json
+
+{
+    "username": "{{username}}",
+    "password": "{{password}}",
+    "address": "test address 1"
+}
+
+###
+# @name login
+POST /login
+Content-Type: application/json
+
+{
+    "username": "{{username}}",
+    "password": "{{password}}"
+}
+
+###
+# @ref login
+GET /profile
+Content-Type: application/json
+Authorization: Bearer {{login.token}}

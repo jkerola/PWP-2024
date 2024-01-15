@@ -3,3 +3,5 @@ services:
     build: api
     ports:
       - 3000:3000
+    environment:
+      SECRET_TOKEN: ${ SECRET_TOKEN }
