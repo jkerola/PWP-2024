@@ -4,11 +4,11 @@ repos:
     rev: "v4.0.0-alpha.8" # Use the sha or tag you want to point at
     hooks:
       - id: prettier
-        types_or: ["markdown", "json", "python", "yaml"]
+        types_or: ["markdown", "python", "yaml"]
         args: ["--no-cache"]
   # Eslint
   - repo: https://github.com/pre-commit/mirrors-eslint
-    rev: "v9.0.0-alpha.0" # Use the sha / tag you want to point at
+    rev: "v9.0.0-alpha.1" # Use the sha / tag you want to point at
     hooks:
       - id: eslint
         files: \.[jt]sx?$ # *.js, *.jsx, *.ts and *.tsx
