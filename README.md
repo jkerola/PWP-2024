@@ -5,7 +5,7 @@
 # Group information
 
 - Student 1. Janne Kerola janne.kerola@oulu.fi
-- Student 2. Name and email
+- Student 2. Janne Tahkola janne.tahkola@oulu.fi
 - Student 3. Name and email
 - Student 4. Name and email
 
