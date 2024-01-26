@@ -25,7 +25,9 @@ pre-commit install
 
 # Development
 
-API is build with [nestjs](nestjs.com). Node version 20/LTS required.
+This repository is a monorepo, containing all needed components for the course.
+
+API directory contains the flask backend.
 
 # Usage
 
