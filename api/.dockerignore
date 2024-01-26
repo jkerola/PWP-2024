@@ -1,6 +1,0 @@
-test
-node_modules
-*.md
-.prettierrc
-.gitignore
-.eslintrc.js

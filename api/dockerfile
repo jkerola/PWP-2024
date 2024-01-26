@@ -1,7 +1,0 @@
-from node:alpine
-workdir pwp
-copy . .
-run npm ci
-run npm run build
-expose 3000
-entrypoint ["npm", "run", "start:prod"]
