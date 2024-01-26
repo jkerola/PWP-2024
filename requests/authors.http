@@ -1,0 +1,24 @@
+# @import auth.http
+# @ref login
+
+### Get Authors
+GET /authors 
+Authorization: Bearer {{login.access_token}}
+
+### Get authors with query
+GET /authors?name=jk
+Authorization: Bearer {{login.access_token}}
+
+### Get Author
+@id = {{$input id ? $value: 1}}
+GET /authors/{{id}}
+Authorization: Bearer {{login.access_token}}
+
+### Create author 
+POST /authors
+Authorization: Bearer {{login.token}}
+Content-Type: application/json
+
+{
+    "name": "JK Rowling"
+}

@@ -1,10 +1,10 @@
-@host=http://localhost:3000/auth
+@host=http://localhost:3000
 @username={{API_USERNAME}}
 @password={{API_PASSWORD}}
 
 ###
 # register
-POST /register
+POST /auth/register
 Content-Type: application/json
 
 {
@@ -15,7 +15,7 @@ Content-Type: application/json
 
 ###
 # @name login
-POST /login
+POST /auth/login
 Content-Type: application/json
 
 {
@@ -25,6 +25,6 @@ Content-Type: application/json
 
 ###
 # @ref login
-GET /profile
+GET /auth/profile
 Content-Type: application/json
-Authorization: Bearer {{login.token}}
+Authorization: Bearer {{login.access_token}}
