@@ -12,11 +12,9 @@ jobs:
     runs-on: [ubuntu-latest]
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
-          set-safe-directory: true
-      - uses: actions/setup-python@v4
-        with:
-          python-version: "3.11"
+          python-version: "3.10"
       - name: Install detect-secrets
         run: pip install detect-secrets
       - name: Scan for secrets
@@ -26,8 +24,6 @@ jobs:
     runs-on: [ubuntu-latest]
     steps:
       - uses: actions/checkout@v4
-        with:
-          set-safe-directory: true
       - uses: actions/setup-node@v3
         with:
           node-version: 20
@@ -48,8 +44,7 @@ jobs:
           python-version: "3.10"
       - name: Install dependencies
         run: |
-          pip install --upgrade pip
-          pip install -r api/requirements.txt
+          pip install -r ./api/requirements.txt
       - name: Lint code
         uses: chartboost/ruff-action@v1
       - name: Check code formatting
