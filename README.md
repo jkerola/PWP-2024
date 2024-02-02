@@ -47,3 +47,7 @@ docker compose up -d
 # then make requests to localhost:3000
 curl -X GET localhost:3000
 ```
+
+# Examine database contents with adminer
+
+Navigate to [http://localhost:8080](http://localhost:8080) and login with the above details. Server should be _'db'_ and database should be _'postgres'_.
