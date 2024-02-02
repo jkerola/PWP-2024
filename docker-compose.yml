@@ -1,13 +1,14 @@
 services:
-  server:
-    build: api
-    depends_on:
-      - db
-    ports:
-      - 3000:3000
-    environment:
-      SECRET_TOKEN: ${SECRET_TOKEN}
-      DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@localhost:5432/postgres?schema=public
+  # Uncomment this to build the production server!
+  # server:
+  #   build: api
+  #   depends_on:
+  #     - db
+  #   ports:
+  #     - 3000:3000
+  #   environment:
+  #     SECRET_TOKEN: ${SECRET_TOKEN}
+  #     DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@localhost:5432/postgres?schema=public
 
   db:
     image: docker.io/library/postgres:alpine
