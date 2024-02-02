@@ -1,16 +1,23 @@
 services:
   server:
     build: api
+    depends_on:
+      - db
     ports:
       - 3000:3000
     environment:
       SECRET_TOKEN: ${SECRET_TOKEN}
-      DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@localhost:5432/${DB_NAME}?schema=public
-  database:
+      DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@localhost:5432/postgres?schema=public
+
+  db:
     image: docker.io/library/postgres:alpine
     environment:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_USER: ${DB_USER}
-      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_DB: postgres
     ports:
       - 5432:5432
+  adminer:
+    image: docker.io/library/adminer
+    ports:
+      - 8080:8080

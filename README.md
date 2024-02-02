@@ -29,23 +29,17 @@ This repository is a monorepo, containing all needed components for the course.
 
 API directory contains the flask backend.
 
-Create a .env file in the project root directory and fill it with the following, replacing < things > with whatever:
-
-```shell
-API_USERNAME=<username>
-API_PASSWORD=<password>
-SECRET_TOKEN=<secret string>
-DB_PASSWORD=<username>
-DB_USER=<password>
-DB_NAME=<database name>
-DATABASE_URL=postgresql://${DB_USER}:${DB_PASSWORD}@localhost:5432/${DB_NAME}?schema=public
-```
-
 # Usage
 
 Easiest way to get this up and running is to use podman/docker:
 
 ```shell
+# create .env file in the root directory
+touch .env
+# fill in the details as such
+DB_PASSWORD=<username>
+DB_USER=<password>
+
 podman-compose up -d
 # Or docker
 docker compose up -d
