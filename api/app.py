@@ -1,9 +1,15 @@
-import asyncio
 from flask import Flask
-from prisma import Prisma, register
+from controllers.auth import auth
 
 
-db = Prisma()
-asyncio.run(db.connect())
-register(db)
-app = Flask(__name__)
+def create_app() -> Flask:
+    app = Flask(__name__)
+
+    app.register_blueprint(auth)
+    return app
+
+
+app = create_app()
+
+if __name__ == "__main__":
+    app.run(debug=True, host="0.0.0.0")
