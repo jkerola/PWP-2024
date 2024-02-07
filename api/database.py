@@ -2,5 +2,9 @@ from prisma import Prisma, register
 
 
 db = Prisma()
-db.connect()
+
 register(db)
+
+
+def connect_to_db():
+    db.connect()

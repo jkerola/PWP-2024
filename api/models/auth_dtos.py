@@ -1,5 +1,6 @@
 from dataclasses import dataclass, asdict
 from argon2 import PasswordHasher
+from werkzeug.exceptions import BadRequest
 
 
 class _BaseDto:
@@ -7,14 +8,16 @@ class _BaseDto:
     password: str
     _ph = PasswordHasher()
 
-    def __post_init__(self):
-        if self.username is None:
-            raise Exception("Missing property: 'username'")
-        if self.password is None:
-            raise Exception("Missing property: 'password'")
-
     def generate_hash(self) -> str:
         return self._ph.hash(self.password)
+
+    def _validate(data: dict) -> [str]:
+        validators = ["username", "password"]
+        errors = []
+        for validator in validators:
+            if not data.get(validator):
+                errors.append(f"Missing property '{validator}'")
+        return errors
 
 
 @dataclass(frozen=True)
@@ -33,6 +36,9 @@ class RegisterDto(_BaseDto):
 
     @staticmethod
     def from_json(data: dict):
+        errors = LoginDto._validate(data)
+        if len(errors) > 0:
+            raise BadRequest(errors)
         return RegisterDto(
             username=data.get("username"),
             password=data.get("password"),
@@ -52,6 +58,9 @@ class LoginDto(_BaseDto):
 
     @staticmethod
     def from_json(data: dict):
+        errors = LoginDto._validate(data)
+        if len(errors) > 0:
+            raise BadRequest(errors)
         return LoginDto(
             username=data.get("username"),
             password=data.get("password"),

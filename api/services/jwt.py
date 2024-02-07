@@ -1,5 +1,5 @@
 import jwt
-from config import config
+from api.config import config
 from datetime import datetime, timedelta
 
 
