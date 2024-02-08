@@ -15,13 +15,13 @@ def requires_authentication(f):
             if "Authorization" in request.headers:
                 auth_type, token = request.headers["Authorization"].split(" ")
             if not token or auth_type != "Bearer":
-                raise Unauthorized("Unauthorized request")
+                raise Unauthorized("unauthorized request")
             data = JWTService.verify_token(token)
             user = db.user.find_unique({"id": data["sub"]})
             if not user:
-                raise Unauthorized("Unauthorized request")
+                raise Unauthorized("unauthorized request")
         except (ValueError, DecodeError):
-            raise Unauthorized("Unauthorized request")
+            raise Unauthorized("unauthorized request")
         return f(user)
 
     return parse_authorization

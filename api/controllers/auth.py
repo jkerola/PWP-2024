@@ -28,7 +28,7 @@ def login():
         token = JWTService.create_token(payload)
         return make_response({"access_token": token})
     else:
-        raise Unauthorized("Unauthorized request")
+        raise Unauthorized("unauthorized request")
 
 
 @auth.route("/auth/profile", methods=["GET"])
