@@ -1,5 +1,4 @@
 from flask import request, make_response, Blueprint, Response
-from api.database import db
 from api.models.auth_dtos import RegisterDto, LoginDto
 from prisma.errors import UniqueViolationError
 from api.services.jwt import JWTService
@@ -14,7 +13,7 @@ auth = Blueprint("auth", __name__)
 def register():
     register_dto = RegisterDto.from_json(request.json)
     try:
-        db.user.create(data=register_dto.to_dict())
+        User.prisma().create(data=register_dto.to_dict())
     except UniqueViolationError:
         raise BadRequest("username not unique")
     return Response(status=201)
@@ -23,7 +22,7 @@ def register():
 @auth.route("/auth/login", methods=["POST"])
 def login():
     login_dto = LoginDto.from_json(request.json)
-    user = db.user.find_first(where={"username": login_dto.username})
+    user = User.prisma().find_first(where={"username": login_dto.username})
     if user and login_dto.verify(user.hash):
         payload = {"sub": user.id, "username": user.username}
         token = JWTService.create_token(payload)

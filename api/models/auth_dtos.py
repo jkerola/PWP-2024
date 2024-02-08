@@ -1,5 +1,6 @@
 from dataclasses import dataclass, asdict
 from argon2 import PasswordHasher
+from argon2.exceptions import VerifyMismatchError
 from werkzeug.exceptions import BadRequest
 
 
@@ -15,8 +16,11 @@ class _BaseDto:
         validators = ["username", "password"]
         errors = []
         for validator in validators:
-            if not data.get(validator):
+            val = data.get(validator)
+            if val is None:
                 errors.append(f"Missing property '{validator}'")
+            elif not isinstance(val, str):
+                errors.append(f"Property '{validator}' not of type str")
         return errors
 
 
@@ -54,7 +58,10 @@ class LoginDto(_BaseDto):
     password: str
 
     def verify(self, hash: str) -> bool:
-        return self._ph.verify(hash, self.password)
+        try:
+            return self._ph.verify(hash, self.password)
+        except VerifyMismatchError:
+            raise BadRequest("Invalid credentials")
 
     @staticmethod
     def from_json(data: dict):
