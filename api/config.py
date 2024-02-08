@@ -9,7 +9,7 @@ load_dotenv()
 @dataclass()
 class Config:
     secret: str = getenv("SECRET_TOKEN")
-    jwt_expires_in: timedelta(minutes=30)
+    jwt_expires_in = timedelta(minutes=30)
 
     def __post_init__(self):
         if self.secret is None or len(self.secret) == 0:
