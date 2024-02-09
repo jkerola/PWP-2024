@@ -37,9 +37,9 @@ DB_USER=<password>
 DATABASE_URL=postgresql://${DB_USER}:${DB_PASSWORD}@localhost:5432/db?schema=public
 ```
 
-Make sure a database is running by executing `docker compose up -d database` or `podman-compose up -d database` in the project root directory.
+Make sure a database is running by executing `docker compose up -d database` or `podman-compose up -d database` in the **project root directory**.
 
-Run the application with:
+Change directory to _api/_, and run the application with:
 
 ```sh
 # create a virtualenv
@@ -49,10 +49,42 @@ source venv/bin/activate
 # Install the required packages
 pip install -r requirements.txt
 
-# Create tables
+# Generate the models based on prisma/schema.prisma
 prisma generate
+
+# Create tables
 prisma db push
 
 # Run the application with
 flask run
 ```
+
+# Playing around with db models [Deadline 2]
+
+```shell
+# Start the database
+docker-compose up -d
+cd api
+
+# create a virtualenv
+python3 -m venv venv
+source venv/bin/activate
+
+# Install the required packages
+pip install -r requirements.txt
+
+# Generate the client
+prisma generate
+
+# Load the database dump into the container
+podman exec -i pwp-2024_db_1 psql -U <DB_USER> -d postgres < database_dump.sql
+
+# Run the python3 interpreter
+python3
+>>> from prisma.models import User, Poll, PollItem
+>>> User.prisma().find_first(where={"username": "testuser"})
+# More CRUD operations and explanations here
+# https://www.prisma.io/docs/orm/prisma-client/queries/crud
+```
+
+You can monitor the database contents with adminer, at [localhost:8080](http://localhost:8080).

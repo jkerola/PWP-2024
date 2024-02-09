@@ -29,7 +29,7 @@ model Poll {
   expires         DateTime
   multipleAnswers Boolean    @default(false)
   items           PollItem[]
-  user            User       @relation(fields: [userId], references: [id])
+  user            User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId          String
 }
 
@@ -37,7 +37,7 @@ model PollItem {
   id          String  @id @default(cuid())
   description String?
   votes       Int     @default(0)
-  poll        Poll    @relation(fields: [pollId], references: [id])
+  poll        Poll    @relation(fields: [pollId], references: [id], onDelete: Cascade)
   pollId      String
 }
 
