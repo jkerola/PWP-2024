@@ -3,6 +3,9 @@
 ## How does it work?
 
 ```mermaid
+---
+title: Authentication
+---
 sequenceDiagram
     participant c as Client
     participant a as API
