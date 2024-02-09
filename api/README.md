@@ -1,8 +1,29 @@
 # Flask API
 
+## How does it work?
+
+```mermaid
+sequenceDiagram
+    participant c as Client
+    participant a as API
+    Note over a,c: Account creation
+    c->>a: POST /auth/register {"username":<value> "password":<value>}
+    a-->>c: 201 Created
+
+    note over a,c: Login event
+    c->>a: POST /auth/login {"username": <value> "password": <value>}
+    a-->>c: 200 OK {"access_token": <value>}
+
+    note over a,c: Accessing a route that requires authentication
+    c->>a: GET /auth/profile Headers: {Authorization: Bearer <access_token>}
+    a-->>c: 200 OK {"username":<value> ... }
+
+
+```
+
 ## Setup
 
-Create a .env file in the _api_ directory and fill it with the following, replacing < things > with whatever:
+Create a **.env** file in the _api_ directory and fill it with the following, replacing < things > with whatever:
 
 ```shell
 API_USERNAME=<username>
