@@ -13,7 +13,7 @@ auth = Blueprint("auth", __name__)
 def register():
     register_dto = RegisterDto.from_json(request.json)
     try:
-        User.prisma().create(data=register_dto.to_dict())
+        User.prisma().create(data=register_dto.to_insertable())
     except UniqueViolationError:
         raise BadRequest("username not unique")
     return Response(status=201)

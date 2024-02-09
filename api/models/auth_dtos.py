@@ -1,4 +1,5 @@
 from dataclasses import dataclass, asdict
+from typing import List
 from argon2 import PasswordHasher
 from argon2.exceptions import VerifyMismatchError
 from werkzeug.exceptions import BadRequest
@@ -10,17 +11,18 @@ class _BaseDto:
     _ph = PasswordHasher()
 
     def generate_hash(self) -> str:
+        """Creates a salted hash of the password property."""
         return self._ph.hash(self.password)
 
-    def _validate(data: dict) -> [str]:
-        validators = ["username", "password"]
+    def _validate(data: dict) -> List[str]:
+        props = ["username", "password"]
         errors = []
-        for validator in validators:
-            val = data.get(validator)
+        for prop in props:
+            val = data.get(prop)
             if val is None:
-                errors.append(f"Missing property '{validator}'")
+                errors.append(f"Missing property '{prop}'")
             elif not isinstance(val, str):
-                errors.append(f"Property '{validator}' not of type str")
+                errors.append(f"Property '{prop}' not of type str")
         return errors
 
 
@@ -32,7 +34,9 @@ class RegisterDto(_BaseDto):
     firstName: str = None
     lastName: str = None
 
-    def to_dict(self) -> dict:
+    def to_insertable(self) -> dict:
+        """Converts the password into a salted hash and
+        returns the DTO as a dict."""
         user = {k: str(v) for k, v in asdict(self).items()}
         user["hash"] = self.generate_hash()
         del user["password"]
@@ -40,7 +44,8 @@ class RegisterDto(_BaseDto):
 
     @staticmethod
     def from_json(data: dict):
-        errors = LoginDto._validate(data)
+        """Creates a new Dto from request.json"""
+        errors = RegisterDto._validate(data)
         if len(errors) > 0:
             raise BadRequest(errors)
         return RegisterDto(
@@ -58,6 +63,8 @@ class LoginDto(_BaseDto):
     password: str
 
     def verify(self, hash: str) -> bool:
+        """Compares the login password to [hash]
+        returns True if match, else raise BadRequest"""
         try:
             return self._ph.verify(hash, self.password)
         except VerifyMismatchError:
@@ -65,6 +72,7 @@ class LoginDto(_BaseDto):
 
     @staticmethod
     def from_json(data: dict):
+        """Creates a new Dto from request.json"""
         errors = LoginDto._validate(data)
         if len(errors) > 0:
             raise BadRequest(errors)
