@@ -45,7 +45,7 @@ class PollDto(BaseDto):
             [
                 ("userId", str),
                 ("title", str),
-                ("expires", datetime),
+                ("expires", str),
             ],
             data,
         )

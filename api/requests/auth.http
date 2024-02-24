@@ -23,6 +23,7 @@ Content-Type: application/json
 }
 
 ###
+# @name profile
 # @ref login
 GET /auth/profile
 Content-Type: application/json

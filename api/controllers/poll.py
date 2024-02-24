@@ -1,10 +1,11 @@
-from prisma.models import Poll, PollItem
-from api.models.poll_dtos import *
-from flask import request, make_response, Blueprint, Response
+from prisma.models import Poll
+from api.models.poll_dtos import PollDto
+from flask import request, Blueprint, Response
 from prisma.errors import UniqueViolationError
-from werkzeug.exceptions import Unauthorized, BadRequest
+from werkzeug.exceptions import BadRequest
 
 poll = Blueprint("poll", __name__)
+
 
 @poll.route("/poll/create", methods=["POST"])
 def create():

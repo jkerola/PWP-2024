@@ -8,7 +8,7 @@ class BaseDto:
 
     def to_insertable(self) -> dict:
         """Convert the DTO into a dict for use with Prisma"""
-        return {k: str(v) for k, v in asdict(self).items()}
+        return {k: v for k, v in asdict(self).items()}
 
     @staticmethod
     def validate(props: List[tuple], data: dict):
