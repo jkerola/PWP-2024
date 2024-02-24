@@ -1,0 +1,23 @@
+# @import auth.http
+# @import polls.http
+
+###
+# @ref poll
+POST /pollitem/create
+Content-Type: application/json
+
+{
+    "pollId": "{{poll.poll_id}}",
+    "description": "test"
+}
+
+###
+# @ref poll
+
+GET /poll/pollitems
+Content-Type: application/json
+
+{
+    "pollId": "{{poll.poll_id}}",
+    "description": "test"
+}

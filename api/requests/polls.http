@@ -1,6 +1,7 @@
 # @import auth.http
 
 ###
+# @name poll
 # @ref profile
 POST /poll/create
 Content-Type: application/json
