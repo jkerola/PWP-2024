@@ -8,9 +8,15 @@ Content-Type: application/json
 
 {
     "userId": "{{ profile.id }}",
-    "title": "testii",
-    "description": "testii",
-    "expires": "2024-02-25T17:53:57.494Z",
+    "title": "testlist",
+    "description": "testing",
+    "expires": "2024-03-29T17:53:57.494Z",
     "multipleAnswers": false,
     "private": false
 }
+
+###
+# @ref poll
+
+GET /poll/{{poll.poll_id}}/pollitems
+Content-Type: application/json

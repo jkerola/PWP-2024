@@ -3,21 +3,16 @@
 
 ###
 # @ref poll
+# @name pollitem
 POST /pollitem/create
 Content-Type: application/json
 
 {
     "pollId": "{{poll.poll_id}}",
-    "description": "test"
+    "description": "star guardian ahri123"
 }
 
 ###
-# @ref poll
-
-GET /poll/pollitems
+# @ref pollitem
+GET /pollitem/{{pollitem.id}}
 Content-Type: application/json
-
-{
-    "pollId": "{{poll.poll_id}}",
-    "description": "test"
-}
