@@ -19,6 +19,7 @@ class PollItemCreate(Resource):
             raise BadRequest("username not unique")
         return make_response({"description": poll_item.description, "votes": poll_item.votes, "id": poll_item.id})
     
+#gets single poll item based on id
 class PollItemDetails(Resource):
     def get(self, poll_item_id):
         try:
@@ -26,6 +27,29 @@ class PollItemDetails(Resource):
         except UniqueViolationError:
             raise BadRequest
         return make_response({"description": poll_item.description, "votes": poll_item.votes})
+    
+#deletes poll item
+class PollItemDelete(Resource):
+    def delete(self, poll_item_id):
+        try:
+            PollItem.prisma().delete(where={"id": poll_item_id})
+        except UniqueViolationError:
+            raise BadRequest
+        return make_response({"deleted item": poll_item_id})
+    
+class PollItemUpdate(Resource):
+    def patch(self, poll_item_id):
+        pollitem_dto = PollItemDto.from_json(request.json)
+        print("TRYING TO UPDATE")
+        try:
+            PollItem.prisma().update(where={"id": poll_item_id}, data=pollitem_dto.to_insertable())
+            print("TRYING TO UPDATE 2")
+            poll_item = PollItem.prisma().find_first(where={"id": poll_item_id})
+        except UniqueViolationError:
+            raise BadRequest
+        return make_response({"description": poll_item.description, "votes": poll_item.votes})
 
 pollitem_api.add_resource(PollItemCreate, "/create")
 pollitem_api.add_resource(PollItemDetails, "/<poll_item_id:poll_item_id>")
+pollitem_api.add_resource(PollItemDelete, "/<poll_item_id:poll_item_id>/delete")
+pollitem_api.add_resource(PollItemUpdate, "/<poll_item_id:poll_item_id>/update")

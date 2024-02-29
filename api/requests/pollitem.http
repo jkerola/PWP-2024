@@ -9,10 +9,25 @@ Content-Type: application/json
 
 {
     "pollId": "{{poll.poll_id}}",
-    "description": "star guardian ahri123"
+    "description": "IKARIAM"
 }
 
 ###
 # @ref pollitem
 GET /pollitem/{{pollitem.id}}
 Content-Type: application/json
+
+###
+# @ref pollitem
+DELETE /pollitem/{{pollitem.id}}/delete
+Content-Type: application/json
+
+###
+# @ref pollitem
+PATCH /pollitem/{{pollitem.id}}/update
+Content-Type: application/json
+
+{
+    "pollId": "{{poll.poll_id}}",
+    "description": "Star guardian Lulu"
+}

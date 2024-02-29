@@ -8,7 +8,7 @@ Content-Type: application/json
 
 {
     "userId": "{{ profile.id }}",
-    "title": "testlist",
+    "title": "TESTIIIIII",
     "description": "testing",
     "expires": "2024-03-29T17:53:57.494Z",
     "multipleAnswers": false,
