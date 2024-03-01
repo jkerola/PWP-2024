@@ -9,7 +9,6 @@ from api.converters.poll import PollConverter
 from api.converters.poll_item import PollItemConverter
 
 
-
 def create_app() -> Flask:
     app = Flask(__name__)
     app.url_map.converters["poll_id"] = PollConverter
