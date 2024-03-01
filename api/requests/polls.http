@@ -3,7 +3,7 @@
 ###
 # @name poll
 # @ref profile
-POST /poll/create
+POST /polls
 Content-Type: application/json
 
 {
@@ -18,5 +18,5 @@ Content-Type: application/json
 ###
 # @ref poll
 
-GET /poll/{{poll.poll_id}}/pollitems
+GET /polls/{{poll.poll_id}}/pollitems
 Content-Type: application/json

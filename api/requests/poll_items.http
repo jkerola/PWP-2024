@@ -4,7 +4,7 @@
 ###
 # @ref poll
 # @name pollitem
-POST /pollitem/create
+POST /pollitems
 Content-Type: application/json
 
 {
@@ -14,17 +14,17 @@ Content-Type: application/json
 
 ###
 # @ref pollitem
-GET /pollitem/{{pollitem.id}}
+GET /pollitems/{{pollitem.id}}
 Content-Type: application/json
 
 ###
 # @ref pollitem
-DELETE /pollitem/{{pollitem.id}}/delete
+DELETE /pollitems/{{pollitem.id}}
 Content-Type: application/json
 
 ###
 # @ref pollitem
-PATCH /pollitem/{{pollitem.id}}/update
+PATCH /pollitems/{{pollitem.id}}
 Content-Type: application/json
 
 {
