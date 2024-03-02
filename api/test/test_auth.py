@@ -23,26 +23,20 @@ def teardown():
 
 
 # Utility functions
-def register(client):
+def register(client, credentials=credentials):
     """Utility function for creating a user"""
-    client.post("/auth/register", json=credentials, headers=headers)
+    return client.post("/auth/register", json=credentials, headers=headers)
 
 
-def login(client) -> str:
+def login(client, credentials=credentials) -> str:
     """Utility function for logging in with user credentials"""
-    response = client.post("/auth/login", json=credentials, headers=headers)
-    return response.json["access_token"]
+    return client.post("/auth/login", json=credentials, headers=headers)
 
 
 # Tests start here
 def test_user_can_register(client):
     """User is able to register with correct credentials"""
-    response = client.post(
-        "/auth/register",
-        json=credentials,
-        headers=headers,
-    )
-    print(response.data)
+    response = register(client)
     assert response.status_code == 201
     user = User.prisma().find_unique({"username": credentials["username"]})
     assert user is not None
@@ -59,19 +53,15 @@ def test_bad_credentials_raise_error(client):
 
 def test_user_can_login(client):
     """User can login with correct credentials"""
-    client.post("/auth/register", json=credentials, headers=headers)
-    response = client.post("/auth/login", json=credentials, headers=headers)
+    register(client)
+    response = login(client)
     assert response.status_code == 200
     assert "access_token" in response.json
 
 
 def test_invalid_credentials_raise_error(client):
     """Invalid credentials should be met with appropriate error"""
-    response = client.post(
-        "/auth/login",
-        headers=headers,
-        json={"username": "invaliduser", "password": token_hex(16)},
-    )
+    response = login(client, {"username": "invaliduser", "password": token_hex(16)})
     assert response.status_code == 401
 
 
@@ -80,9 +70,10 @@ def test_authenticated_routes_are_protected(client):
     response = client.get("/auth/profile", headers=headers)
     assert response.status_code == 401
     register(client)
-    token = login(client)
+    token = login(client).json["access_token"]
     response = client.get(
-        "/auth/profile", headers={"Authorization": f"Bearer {token}", **headers}
+        "/auth/profile",
+        headers={"Authorization": f"Bearer {token}", **headers},
     )
     assert response.status_code == 200
     assert response.json["username"] == credentials["username"]

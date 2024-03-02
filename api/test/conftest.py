@@ -17,6 +17,7 @@ def setup_db():
     p = os.popen("prisma generate && prisma db push")
     print(p.read())
     p.close()
+    yield
 
 
 @fixture(name="app")
