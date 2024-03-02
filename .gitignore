@@ -6,3 +6,4 @@ venv
 __pycache__
 *.sqlite
 .ruff_cache
+.pytest_cache
