@@ -3,8 +3,10 @@
 ###
 # @name poll
 # @ref profile
+# @ref login
 POST /polls
 Content-Type: application/json
+Authorization: Bearer {{ login.access_token }}
 
 {
     "userId": "{{ profile.id }}",
@@ -20,3 +22,18 @@ Content-Type: application/json
 
 GET /polls/{{poll.poll_id}}/pollitems
 Content-Type: application/json
+
+###
+# @name poll
+# @ref profile
+POST /polls
+Content-Type: application/json
+
+{
+    "userId": "{{ profile.id }}",
+    "title": "TESTIIIIII",
+    "description": "testing",
+    "expires": "2024-03-29T17:53:57.494Z",
+    "multipleAnswers": false,
+    "private": false
+}

@@ -15,7 +15,7 @@ class BaseDto:
 
     def to_insertable(self) -> dict:
         """Convert the DTO into a dict for use with Prisma"""
-        return asdict(self).items
+        return asdict(self)
 
     @staticmethod
     def validate(props: List[tuple], data: dict):

@@ -8,7 +8,7 @@ POST /pollitems
 Content-Type: application/json
 
 {
-    "pollId": "{{poll.poll_id}}",
+    "pollId": "{{poll.pollId}}",
     "description": "IKARIAM"
 }
 
@@ -28,6 +28,6 @@ PATCH /pollitems/{{pollitem.id}}
 Content-Type: application/json
 
 {
-    "pollId": "{{poll.poll_id}}",
+    "pollId": "{{poll.pollId}}",
     "description": "Star guardian Lulu"
 }

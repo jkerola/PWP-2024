@@ -1,9 +1,10 @@
 """Module for Poll related DTOs"""
 
-from dataclasses import dataclass
 from datetime import datetime
+from dataclasses import dataclass
+from werkzeug.exceptions import BadRequest
 from api.models.base_dto import BaseDto
-
+from dateutil import parser
 
 # In order to keep JSON -> Python conversion easily readable,'
 # we use the original camelCase naming convention
@@ -57,11 +58,19 @@ class PollDto(BaseDto):
             data,
         )
 
+        date = data.get("expires")
+        if date is None:
+            raise BadRequest("property 'expires' is required")
+        try:
+            date = parser.parse(date)
+        except parser.ParserError:
+            raise BadRequest("property 'expires' should be ISO format date")
+
         return PollDto(
             userId=data.get("userId"),
             description=data.get("description"),
             title=data.get("title"),
-            expires=data.get("expires"),
+            expires=date,
             multipleAnswers=data.get("multipleAnswers"),
             private=data.get("private"),
         )
