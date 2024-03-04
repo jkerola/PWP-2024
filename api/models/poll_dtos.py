@@ -1,7 +1,7 @@
 """Module for Poll related DTOs"""
 
 from datetime import datetime
-from dataclasses import dataclass
+from dataclasses import dataclass, asdict
 from werkzeug.exceptions import BadRequest
 from api.models.base_dto import BaseDto
 from dateutil import parser
@@ -17,7 +17,6 @@ class PollItemDto(BaseDto):
 
     pollId: str
     description: str
-    votes: int = 0
 
     @staticmethod
     def from_json(data: dict):
@@ -29,8 +28,11 @@ class PollItemDto(BaseDto):
         return PollItemDto(
             pollId=data.get("pollId"),
             description=data.get("description"),
-            votes=0,
         )
+
+    def to_json(self):
+        """Return the object as JSON"""
+        return asdict(self)
 
 
 @dataclass(frozen=True)

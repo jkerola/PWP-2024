@@ -1,11 +1,18 @@
 # @import auth.http
 # @import polls.http
 
+
+###
+# @ref login
+GET /pollitems
+Authorization: Bearer {{login.access_token}}
+
 ###
 # @ref poll
 # @name pollitem
 POST /pollitems
 Content-Type: application/json
+Authorization: Bearer {{login.access_token}}
 
 {
     "pollId": "{{poll.pollId}}",
@@ -19,15 +26,19 @@ Content-Type: application/json
 
 ###
 # @ref pollitem
+# @ref login
 DELETE /pollitems/{{pollitem.id}}
 Content-Type: application/json
+Authorization: Bearer {{login.access_token}}
 
 ###
 # @ref pollitem
+# @ref login
 PATCH /pollitems/{{pollitem.id}}
 Content-Type: application/json
+Authorization: Bearer {{login.access_token}}
 
 {
-    "pollId": "{{poll.pollId}}",
+    "pollId": "{{pollitem.pollId}}",
     "description": "Star guardian Lulu"
 }

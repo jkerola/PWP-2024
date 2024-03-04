@@ -18,7 +18,7 @@ def requires_authentication(f):
     """
 
     @wraps(f)
-    def parse_authorization():
+    def parse_authorization(*args, **kwargs):
         auth_type = None
         token = None
         try:
@@ -28,10 +28,11 @@ def requires_authentication(f):
                 raise Unauthorized("unauthorized request")
             data = JWTService.verify_token(token)
             user = db.user.find_unique({"id": data["sub"]})
+            kwargs["user"] = user
             if not user:
                 raise Unauthorized("unauthorized request")
         except (ValueError, DecodeError):
             raise Unauthorized("unauthorized request")
-        return f(user)
+        return f(*args, **kwargs)
 
     return parse_authorization

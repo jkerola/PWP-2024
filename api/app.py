@@ -14,8 +14,8 @@ from api.converters.poll_item import PollItemConverter
 def create_app() -> Flask:
     """Factory function"""
     app = Flask(__name__)
-    app.url_map.converters["poll_id"] = PollConverter
-    app.url_map.converters["poll_item_id"] = PollItemConverter
+    app.url_map.converters["poll"] = PollConverter
+    app.url_map.converters["poll_item"] = PollItemConverter
     app.register_blueprint(auth)
     app.register_blueprint(polls)
     app.register_blueprint(poll_items)

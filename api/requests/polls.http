@@ -1,6 +1,9 @@
 # @import auth.http
 
 ###
+GET /polls
+
+###
 # @name poll
 # @ref profile
 # @ref login
@@ -9,31 +12,18 @@ Content-Type: application/json
 Authorization: Bearer {{ login.access_token }}
 
 {
-    "userId": "{{ profile.id }}",
     "title": "TESTIIIIII",
     "description": "testing",
     "expires": "2024-03-29T17:53:57.494Z",
     "multipleAnswers": false,
     "private": false
 }
+###
+GET /polls/{{poll.pollId}}
+Content-Type: application/json
 
 ###
 # @ref poll
 
-GET /polls/{{poll.poll_id}}/pollitems
+GET /polls/{{poll.pollId}}/pollitems
 Content-Type: application/json
-
-###
-# @name poll
-# @ref profile
-POST /polls
-Content-Type: application/json
-
-{
-    "userId": "{{ profile.id }}",
-    "title": "TESTIIIIII",
-    "description": "testing",
-    "expires": "2024-03-29T17:53:57.494Z",
-    "multipleAnswers": false,
-    "private": false
-}

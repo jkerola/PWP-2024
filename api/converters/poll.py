@@ -12,7 +12,7 @@ class PollConverter(BaseConverter):
         poll = Poll.prisma().find_first(where={"id": value})
         if poll is None:
             raise NotFound
-        return poll.id
+        return poll
 
     def to_url(self, value):
         return value.id
