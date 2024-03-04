@@ -9,7 +9,7 @@ from api.app import create_app
 load_dotenv()
 
 
-@fixture(name="db")
+@fixture(name="db", autouse=True, scope="session")
 def setup_db():
     """Fixture for setting up prisma models"""
     print("Remember to start the database before testing!")

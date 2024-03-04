@@ -3,18 +3,12 @@
 from secrets import token_hex
 from prisma.models import User
 
-
 credentials = {
     "username": "testuser",
     "password": token_hex(16),
 }
 
 headers = {"Content-Type": "application/json"}
-
-
-def setup(db):
-    """Called once before all tests"""
-    print(f"this is here so pylint will shut up about {db}")
 
 
 def teardown():
