@@ -7,11 +7,13 @@ from prisma.models import PollItem, Poll, User
 from api.models.poll_dtos import PollItemDto
 from api.middleware.authguard import requires_authentication
 
-poll_items = Blueprint("pollitem", __name__, url_prefix="/pollitems")
-poll_items_api = Api(poll_items)
+poll_items_bp = Blueprint("pollitems", __name__, url_prefix="/pollitems")
+poll_items_api = Api(poll_items_bp)
 
 
 class PollItemCollection(Resource):
+    """Route resource representing all user-created PollItems"""
+
     method_decorators = [requires_authentication]
 
     def get(self, user: User):
@@ -64,6 +66,8 @@ class PollItemCollection(Resource):
 
 
 class PollItemResource(Resource):
+    """Route resource representing a single Pollitem"""
+
     method_decorators = {
         "patch": [requires_authentication],
         "delete": [requires_authentication],

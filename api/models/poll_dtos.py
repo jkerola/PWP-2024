@@ -3,8 +3,8 @@
 from datetime import datetime
 from dataclasses import dataclass, asdict
 from werkzeug.exceptions import BadRequest
-from api.models.base_dto import BaseDto
 from dateutil import parser
+from api.models.base_dto import BaseDto
 
 # In order to keep JSON -> Python conversion easily readable,'
 # we use the original camelCase naming convention

@@ -7,34 +7,35 @@ from prisma.models import Poll, PollItem, User
 from api.models.poll_dtos import PollDto
 from api.middleware.authguard import requires_authentication
 
-polls = Blueprint("poll", __name__, url_prefix="/polls")
-polls_api = Api(polls)
+polls_bp = Blueprint("polls", __name__, url_prefix="/polls")
+polls_api = Api(polls_bp)
 
 
 class UniquePollItems(Resource):
-    """
-    Gets all PollItems within a specified Poll.
-
-    Send a GET request to /polls/<poll_id:poll_id>/pollitems with:
-    "poll_id": Poll ID to query.
-
-    returns:
-
-    {
-
-        "pollItems": list of PollItems.
-
-    }
-    """
+    """Route resource representing PollItems related to a Poll"""
 
     def get(self, poll: Poll):
-        """Get Poll items by id"""
+        """Gets all PollItems within a specified Poll.
+
+        Send a GET request to /polls/<poll_id:poll_id>/pollitems with:
+
+        "poll_id": Poll ID to query.
+
+        returns:
+
+        {
+
+            "pollItems": list of PollItems.
+
+        }"""
         poll_items = PollItem.prisma().find_many(where={"pollId": poll.id})
         data = [item.model_dump(exclude=["poll"]) for item in poll_items]
         return make_response(data)
 
 
 class PollResource(Resource):
+    """Route resource representing a polll"""
+
     method_decorators = {"post": [requires_authentication]}
 
     def get(self):

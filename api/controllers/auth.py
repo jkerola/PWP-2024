@@ -8,10 +8,10 @@ from api.middleware.authguard import requires_authentication
 from api.models.auth_dtos import RegisterDto, LoginDto
 from api.services.jwt import JWTService
 
-auth = Blueprint("auth", __name__)
+auth_bp = Blueprint("auth", __name__)
 
 
-@auth.route("/auth/register", methods=["POST"])
+@auth_bp.route("/auth/register", methods=["POST"])
 def register():
     """Route for registering new users"""
     register_dto = RegisterDto.from_json(request.json)
@@ -22,7 +22,7 @@ def register():
     return Response(status=201)
 
 
-@auth.route("/auth/login", methods=["POST"])
+@auth_bp.route("/auth/login", methods=["POST"])
 def login():
     """Route for authenticating users"""
     login_dto = LoginDto.from_json(request.json)
@@ -34,7 +34,7 @@ def login():
     raise Unauthorized("unauthorized request")
 
 
-@auth.route("/auth/profile", methods=["GET"])
+@auth_bp.route("/auth/profile", methods=["GET"])
 @requires_authentication
 def profile(user: User):
     """Route for fetching user information based on JWT contents"""

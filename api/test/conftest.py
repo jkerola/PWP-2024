@@ -1,12 +1,21 @@
 """Contains pytest fixtures for setting up the test environment"""
 
 import os
+from secrets import token_hex
 from dotenv import load_dotenv
 from pytest import fixture
 from api.app import create_app
 
-
 load_dotenv()
+
+
+@fixture(name="credentials", scope="session")
+def get_credentials():
+    """Creates random credentials for the session"""
+    return {
+        "username": "testuser",
+        "password": token_hex(16),
+    }
 
 
 @fixture(name="db", autouse=True, scope="session")
