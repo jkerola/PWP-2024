@@ -84,6 +84,14 @@ class PollItemResource(Resource):
 
         return make_response(poll_item.model_dump(exclude="poll"))
 
+    def post(self, poll_item: PollItem):
+        """Vote on a post!"""
+        PollItem.prisma().update(
+            where={"id": poll_item.id},
+            data={"votes": poll_item.votes + 1},
+        )
+        return make_response("", 201)
+
     def patch(self, poll_item: PollItem, user: User):
         """Updates a PollItem with given id.
 

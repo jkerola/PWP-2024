@@ -9,6 +9,7 @@ Authorization: Bearer {{login.access_token}}
 
 ###
 # @ref poll
+# @ref login
 # @name pollitem
 POST /pollitems
 Content-Type: application/json
@@ -22,6 +23,13 @@ Authorization: Bearer {{login.access_token}}
 ###
 # @ref pollitem
 GET /pollitems/{{pollitem.id}}
+Content-Type: application/json
+
+
+### 
+# @name vote
+# @ref pollitem
+POST /pollitems/{{pollitem.id}}
 Content-Type: application/json
 
 ###
