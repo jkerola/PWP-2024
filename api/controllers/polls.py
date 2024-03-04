@@ -1,19 +1,14 @@
 """Module containing Poll routes"""
 
-from flask import make_response, request, Blueprint, Response
+from flask import make_response, request, Blueprint
 from flask_restful import Api, Resource
 from werkzeug.exceptions import BadRequest
 from prisma.errors import UniqueViolationError
 from prisma.models import Poll
 from api.models.poll_dtos import PollDto
 
-poll = Blueprint("poll", __name__, url_prefix="/polls")
-poll_api = Api(poll)
-
-
-class Poll_Id(Resource):
-    def get(self, poll_id):
-        return Response(status=501)
+polls = Blueprint("poll", __name__, url_prefix="/polls")
+polls_api = Api(polls)
 
 
 class PollItems(Resource):
@@ -33,6 +28,7 @@ class PollItems(Resource):
     """
 
     def get(self, poll_id):
+        """Get Poll by id"""
         try:
             poll = Poll.prisma().find_first(
                 where={"id": poll_id}, include={"items": True}
@@ -78,6 +74,7 @@ class PollCreate(Resource):
     """
 
     def post(self):
+        """Create Poll"""
         poll_dto = PollDto.from_json(request.json)
         try:
             Poll.prisma().create(data=poll_dto.to_insertable())
@@ -88,5 +85,5 @@ class PollCreate(Resource):
         return make_response({"poll_id": poll.id})
 
 
-poll_api.add_resource(PollItems, "/<poll_id:poll_id>/pollitems")
-poll_api.add_resource(PollCreate, "")
+polls_api.add_resource(PollItems, "/<poll_id:poll_id>/pollitems")
+polls_api.add_resource(PollCreate, "")

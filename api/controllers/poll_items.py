@@ -7,8 +7,8 @@ from prisma.models import PollItem
 from prisma.errors import UniqueViolationError
 from api.models.poll_dtos import PollItemDto
 
-pollitem = Blueprint("pollitem", __name__, url_prefix="/pollitems")
-pollitem_api = Api(pollitem)
+poll_items = Blueprint("pollitem", __name__, url_prefix="/pollitems")
+poll_items_api = Api(poll_items)
 
 
 class PollItemCreate(Resource):
@@ -31,6 +31,7 @@ class PollItemCreate(Resource):
     """
 
     def post(self):
+        """Create a PollItem"""
         pollitem_dto = PollItemDto.from_json(request.json)
         try:
             PollItem.prisma().create(data=pollitem_dto.to_insertable())
@@ -67,6 +68,7 @@ class PollItemDetails(Resource):
     """
 
     def get(self, poll_item_id):
+        """Get PollItem by id"""
         try:
             poll_item = PollItem.prisma().find_first(where={"id": poll_item_id})
         except UniqueViolationError:
@@ -93,6 +95,7 @@ class PollItemDelete(Resource):
     """
 
     def delete(self, poll_item_id):
+        """Delete PollItem by id"""
         try:
             PollItem.prisma().delete(where={"id": poll_item_id})
         except UniqueViolationError:
@@ -118,6 +121,7 @@ class PollItemUpdate(Resource):
     """
 
     def patch(self, poll_item_id):
+        """Patch PollItem by id"""
         pollitem_dto = PollItemDto.from_json(request.json)
         try:
             PollItem.prisma().update(
@@ -131,7 +135,7 @@ class PollItemUpdate(Resource):
         )
 
 
-pollitem_api.add_resource(PollItemCreate, "")
-pollitem_api.add_resource(PollItemDetails, "/<poll_item_id:poll_item_id>")
-pollitem_api.add_resource(PollItemDelete, "/<poll_item_id:poll_item_id>")
-pollitem_api.add_resource(PollItemUpdate, "/<poll_item_id:poll_item_id>")
+poll_items_api.add_resource(PollItemCreate, "")
+poll_items_api.add_resource(PollItemDetails, "/<poll_item_id:poll_item_id>")
+poll_items_api.add_resource(PollItemDelete, "/<poll_item_id:poll_item_id>")
+poll_items_api.add_resource(PollItemUpdate, "/<poll_item_id:poll_item_id>")
