@@ -1,8 +1,15 @@
+"""Contains DTOs related to authentication"""
+
 from dataclasses import dataclass, asdict
 from argon2 import PasswordHasher
 from argon2.exceptions import VerifyMismatchError
 from werkzeug.exceptions import BadRequest
 from api.models.base_dto import BaseDto
+
+
+# In order to keep JSON -> Python conversion easily readable,
+# we use the original camelCase naming convention
+# pylint: disable=invalid-name
 
 
 class _AuthBaseDto(BaseDto):
@@ -59,13 +66,13 @@ class LoginDto(_AuthBaseDto):
     username: str
     password: str
 
-    def verify(self, hash: str) -> bool:
-        """Compares the login password to [hash]
+    def verify(self, password_hash: str) -> bool:
+        """Compares the login password to [password_hash]
         hash: str
         returns True if match, else raise BadRequest
         """
         try:
-            return self._ph.verify(hash, self.password)
+            return self._ph.verify(password_hash, self.password)
         except VerifyMismatchError:
             raise BadRequest("Invalid credentials")
 

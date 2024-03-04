@@ -1,0 +1,4 @@
+[MAIN]
+# Re-raising errors into JSON responses isn't good.
+# Better to raise appropriate error responses depending on the situation.
+disable=raise-missing-from

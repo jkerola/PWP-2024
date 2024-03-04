@@ -1,6 +1,13 @@
+"""Module for Poll related DTOs"""
+
 from dataclasses import dataclass
 from datetime import datetime
 from api.models.base_dto import BaseDto
+
+
+# In order to keep JSON -> Python conversion easily readable,'
+# we use the original camelCase naming convention
+# pylint: disable=invalid-name
 
 
 @dataclass(frozen=True)

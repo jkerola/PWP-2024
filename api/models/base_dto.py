@@ -1,6 +1,13 @@
+"""Contains the BaseDTO class"""
+
 from dataclasses import asdict
 from typing import List
 from werkzeug.exceptions import BadRequest
+
+
+# In order to keep JSON -> Python conversion easily readable,
+# we use the original camelCase naming convention
+# pylint: disable=invalid-name
 
 
 class BaseDto:
@@ -8,7 +15,7 @@ class BaseDto:
 
     def to_insertable(self) -> dict:
         """Convert the DTO into a dict for use with Prisma"""
-        return {k: v for k, v in asdict(self).items()}
+        return asdict(self).items
 
     @staticmethod
     def validate(props: List[tuple], data: dict):
