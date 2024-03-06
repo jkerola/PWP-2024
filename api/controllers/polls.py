@@ -34,7 +34,51 @@ class UniquePollItems(Resource):
 
 
 class PollResource(Resource):
-    """Route resource representing a polll"""
+    """Route resource representing a unique poll"""
+
+    method_decorators = {
+        "delete": [requires_authentication],
+        "patch": [requires_authentication],
+    }
+
+    def get(self, poll: Poll):
+        """Get a single poll by id"""
+        return make_response(poll.model_dump(exclude=["user"]))
+
+    def delete(self, poll: Poll, user: User):
+        """Delete a poll"""
+        if poll.userId == user.id:
+            Poll.prisma().delete(where={"id": poll.id})
+            return make_response("", 204)
+        return make_response("", 403)
+
+    def patch(self, poll: Poll, user: User):
+        """Update a poll"""
+        if poll.userId == user.id:
+            try:
+                data = request.json
+                # TODO: proper verification needed
+                updated = Poll.prisma().update(
+                    where={"id": poll.id, "userId": user.id},
+                    data={
+                        "title": data.get("title") or poll.title,
+                        "description": data.get("description") or poll.description,
+                        "multipleAnswers": data.get("multipleAnswers")
+                        or poll.multipleAnswers,
+                        "private": data.get("private") or poll.private,
+                        "expires": data.get("expires") or poll.expires,
+                    },
+                )
+                return make_response(updated.model_dump(exclude=["user", "items"]), 201)
+            except Exception as e:
+                print(e)
+                raise BadRequest("couldn't update poll")
+
+        return make_response("", 403)
+
+
+class PollCollection(Resource):
+    """Resource representing all polls"""
 
     method_decorators = {"post": [requires_authentication]}
 
@@ -68,17 +112,12 @@ class PollResource(Resource):
 
         poll_dto = PollDto.from_json({**request.json, "userId": user.id})
         try:
-            Poll.prisma().create(data=poll_dto.to_insertable())
-            poll = Poll.prisma().find_first(
-                where={
-                    "title": poll_dto.title,
-                    "userId": user.id,
-                }
-            )
-            return make_response({"pollId": poll.id})
+            poll = Poll.prisma().create(data=poll_dto.to_insertable())
+            return make_response(poll.model_dump(exclude=["user", "items"]))
         except Exception:
             raise BadRequest("couldn't create poll from request")
 
 
-polls_api.add_resource(PollResource, "")
+polls_api.add_resource(PollCollection, "")
+polls_api.add_resource(PollResource, "/<poll:poll>")
 polls_api.add_resource(UniquePollItems, "/<poll:poll>/pollitems")

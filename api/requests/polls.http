@@ -18,12 +18,31 @@ Authorization: Bearer {{ login.access_token }}
     "multipleAnswers": false,
     "private": false
 }
+
 ###
-GET /polls/{{poll.pollId}}
+GET /polls/{{poll.id}}
 Content-Type: application/json
 
 ###
 # @ref poll
 
-GET /polls/{{poll.pollId}}/pollitems
+GET /polls/{{poll.id}}/pollitems
 Content-Type: application/json
+
+###
+DELETE /polls/{{poll.id}}
+Content-Type: application/json
+Authorization: Bearer {{login.access_token}}
+
+
+###
+# @ref poll
+# @ref login
+PATCH /polls/{{poll.id}}
+Content-Type: application/json
+Authorization: Bearer {{login.access_token}}
+
+{
+    "title": "new title",
+    "private": true
+}
