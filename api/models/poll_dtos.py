@@ -1,7 +1,7 @@
 """Module for Poll related DTOs"""
 
 from datetime import datetime
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass
 from api.models.base_dto import BaseDto
 
 # In order to keep JSON -> Python conversion easily readable,'
@@ -38,10 +38,6 @@ class PollItemDto(BaseDto):
             description=data.get("description"),
         )
 
-    def to_json(self):
-        """Return the object as JSON"""
-        return asdict(self)
-
 
 @dataclass(frozen=True)
 class PollDto(BaseDto):
@@ -70,6 +66,38 @@ class PollDto(BaseDto):
                     "private": {"type": "boolean"},
                 },
                 "required": ["title", "expires"],
+            },
+        )
+
+        return PollDto(
+            description=data.get("description"),
+            title=data.get("title"),
+            expires=data.get("expires"),
+            multipleAnswers=data.get("multipleAnswers"),
+            private=data.get("private"),
+        )
+
+
+@dataclass(frozen=True)
+class PartialPollDto(PollDto):
+    """PollDto for patch requests, where not all fields are required"""
+
+    @staticmethod
+    def from_json(data: dict):
+        """Create a new DTO from json
+        data: request.json
+        """
+        PollDto.validate(
+            data,
+            {
+                "type": "object",
+                "properties": {
+                    "title": {"type": "string"},
+                    "expires": {"type": "string", "format": "date-time"},
+                    "description": {"type": "string"},
+                    "multipleAnswers": {"type": "boolean"},
+                    "private": {"type": "boolean"},
+                },
             },
         )
 

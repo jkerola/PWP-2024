@@ -13,9 +13,11 @@ from jsonschema.exceptions import ValidationError, FormatError
 class BaseDto:
     """All other DTOs inherit stuff from this one."""
 
-    def to_insertable(self) -> dict:
+    def to_insertable(self, include_null=False) -> dict:
         """Convert the DTO into a dict for use with Prisma"""
-        return asdict(self)
+        if include_null:
+            return asdict(self)
+        return {k: v for k, v in asdict(self).items() if v is not None}
 
     @staticmethod
     def validate(data: dict, schema: dict):

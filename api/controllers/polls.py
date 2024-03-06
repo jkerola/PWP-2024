@@ -2,9 +2,8 @@
 
 from flask import make_response, request, Blueprint
 from flask_restful import Api, Resource
-from werkzeug.exceptions import BadRequest
 from prisma.models import Poll, PollItem, User
-from api.models.poll_dtos import PollDto
+from api.models.poll_dtos import PollDto, PartialPollDto
 from api.middleware.authguard import requires_authentication
 
 polls_bp = Blueprint("polls", __name__, url_prefix="/polls")
@@ -55,24 +54,15 @@ class PollResource(Resource):
     def patch(self, poll: Poll, user: User):
         """Update a poll"""
         if poll.userId == user.id:
-            try:
-                data = request.json
-                # TODO: proper verification needed
-                updated = Poll.prisma().update(
-                    where={"id": poll.id, "userId": user.id},
-                    data={
-                        "title": data.get("title") or poll.title,
-                        "description": data.get("description") or poll.description,
-                        "multipleAnswers": data.get("multipleAnswers")
-                        or poll.multipleAnswers,
-                        "private": data.get("private") or poll.private,
-                        "expires": data.get("expires") or poll.expires,
-                    },
-                )
-                return make_response(updated.model_dump(exclude=["user", "items"]), 201)
-            except Exception as e:
-                print(e)
-                raise BadRequest("couldn't update poll")
+            partial_poll_dto = PartialPollDto.from_json(request.json)
+            updated = Poll.prisma().update(
+                where={
+                    "id": poll.id,
+                    "userId": user.id,
+                },
+                data=partial_poll_dto.to_insertable(),
+            )
+            return make_response(updated.model_dump(exclude=["user", "items"]), 201)
 
         return make_response("", 403)
 
