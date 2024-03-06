@@ -110,12 +110,14 @@ class PollCollection(Resource):
 
         }"""
 
-        poll_dto = PollDto.from_json({**request.json, "userId": user.id})
-        try:
-            poll = Poll.prisma().create(data=poll_dto.to_insertable())
-            return make_response(poll.model_dump(exclude=["user", "items"]))
-        except Exception:
-            raise BadRequest("couldn't create poll from request")
+        poll_dto = PollDto.from_json(request.json)
+        poll = Poll.prisma().create(
+            data={
+                "userId": user.id,
+                **poll_dto.to_insertable(),
+            }
+        )
+        return make_response(poll.model_dump(exclude=["user", "items"]))
 
 
 polls_api.add_resource(PollCollection, "")

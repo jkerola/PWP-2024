@@ -16,7 +16,7 @@ Content-Type: application/json
 Authorization: Bearer {{login.access_token}}
 
 {
-    "pollId": "{{poll.pollId}}",
+    "pollId": "{{poll.id}}",
     "description": "IKARIAM"
 }
 

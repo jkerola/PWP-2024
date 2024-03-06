@@ -2,8 +2,6 @@
 
 from datetime import datetime
 from dataclasses import dataclass, asdict
-from werkzeug.exceptions import BadRequest
-from dateutil import parser
 from api.models.base_dto import BaseDto
 
 # In order to keep JSON -> Python conversion easily readable,'
@@ -23,7 +21,17 @@ class PollItemDto(BaseDto):
         """Create a new DTO from json
         data: request.json
         """
-        PollItemDto.validate([("pollId", str)], data)
+        PollItemDto.validate(
+            data,
+            {
+                "type": "object",
+                "properties": {
+                    "pollId": {"type": "string"},
+                    "description": {"type": "string"},
+                },
+                "required": ["pollId", "description"],
+            },
+        )
 
         return PollItemDto(
             pollId=data.get("pollId"),
@@ -39,7 +47,6 @@ class PollItemDto(BaseDto):
 class PollDto(BaseDto):
     """DTO for managing polls"""
 
-    userId: str
     title: str
     description: str
     expires: datetime
@@ -52,27 +59,24 @@ class PollDto(BaseDto):
         data: request.json
         """
         PollDto.validate(
-            [
-                ("userId", str),
-                ("title", str),
-                ("expires", str),
-            ],
             data,
+            {
+                "type": "object",
+                "properties": {
+                    "title": {"type": "string"},
+                    "expires": {"type": "string", "format": "date-time"},
+                    "description": {"type": "string"},
+                    "multipleAnswers": {"type": "boolean"},
+                    "private": {"type": "boolean"},
+                },
+                "required": ["title", "expires"],
+            },
         )
 
-        date = data.get("expires")
-        if date is None:
-            raise BadRequest("property 'expires' is required")
-        try:
-            date = parser.parse(date)
-        except parser.ParserError:
-            raise BadRequest("property 'expires' should be ISO format date")
-
         return PollDto(
-            userId=data.get("userId"),
             description=data.get("description"),
             title=data.get("title"),
-            expires=date,
+            expires=data.get("expires"),
             multipleAnswers=data.get("multipleAnswers"),
             private=data.get("private"),
         )

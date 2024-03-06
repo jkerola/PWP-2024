@@ -44,11 +44,18 @@ class RegisterDto(_AuthBaseDto):
         data: request.json
         """
         RegisterDto.validate(
-            [
-                ("username", str),
-                ("password", str),
-            ],
             data,
+            {
+                "type": "object",
+                "properties": {
+                    "username": {"type": "string"},
+                    "password": {"type": "string"},
+                    "email": {"type": "string"},
+                    "firstName": {"type": "string"},
+                    "lastName": {"type": "string"},
+                },
+                "required": ["username", "password"],
+            },
         )
         return RegisterDto(
             username=data.get("username"),
@@ -82,11 +89,15 @@ class LoginDto(_AuthBaseDto):
         data: request.json
         """
         LoginDto.validate(
-            [
-                ("username", str),
-                ("password", str),
-            ],
             data,
+            {
+                "type": "object",
+                "properties": {
+                    "username": {"type": "string"},
+                    "password": {"type": "string"},
+                },
+                "required": ["username", "password"],
+            },
         )
 
         return LoginDto(

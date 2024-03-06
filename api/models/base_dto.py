@@ -1,9 +1,9 @@
 """Contains the BaseDTO class"""
 
 from dataclasses import asdict
-from typing import List
 from werkzeug.exceptions import BadRequest
-
+from jsonschema import validate, FormatChecker
+from jsonschema.exceptions import ValidationError, FormatError
 
 # In order to keep JSON -> Python conversion easily readable,
 # we use the original camelCase naming convention
@@ -18,20 +18,20 @@ class BaseDto:
         return asdict(self)
 
     @staticmethod
-    def validate(props: List[tuple], data: dict):
+    def validate(data: dict, schema: dict):
         """Validate the data properties
         data: request.json
         props: ex: [('username', str)]
 
         raises BadRequest error if invalid
         """
-        errors = []
-        for prop in props:
-            k, t = prop
-            val = data.get(k)
-            if val is None:
-                errors.append(f"Missing property '{k}'")
-            elif not isinstance(val, t):
-                errors.append(f"Property '{k}' not of type str")
-        if len(errors) > 0:
-            raise BadRequest(errors)
+        try:
+            validate(
+                instance=data,
+                schema=schema,
+                format_checker=FormatChecker(),
+            )
+        except ValidationError as e:
+            raise BadRequest(e.message)
+        except FormatError as e:
+            raise BadRequest(e.message)
