@@ -57,6 +57,11 @@ prisma db push
 
 # Run the application with
 flask run
+
+# Run the unit tests with
+pytest -s
+
+# Note that the database must be up and running for these to work!
 ```
 
 # Playing around with db models [Deadline 2]
