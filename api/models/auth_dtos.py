@@ -1,6 +1,6 @@
 """Contains DTOs related to authentication"""
 
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass
 from argon2 import PasswordHasher
 from argon2.exceptions import VerifyMismatchError
 from werkzeug.exceptions import BadRequest
@@ -12,31 +12,15 @@ from api.models.base_dto import BaseDto
 # pylint: disable=invalid-name
 
 
-class _AuthBaseDto(BaseDto):
-    _ph = PasswordHasher()
-
-
 @dataclass(frozen=True)
-class RegisterDto(_AuthBaseDto):
+class RegisterDto(BaseDto):
     """DTO for managing user signup"""
 
     username: str
-    password: str
+    hash: str
     email: str = None
     firstName: str = None
     lastName: str = None
-
-    def generate_hash(self) -> str:
-        """Creates a salted hash of the password property."""
-        return self._ph.hash(self.password)
-
-    def to_insertable(self) -> dict:
-        """Converts the password into a salted hash and
-        returns the DTO as a dict."""
-        user = {k: str(v) for k, v in asdict(self).items()}
-        user["hash"] = self.generate_hash()
-        del user["password"]
-        return user
 
     @staticmethod
     def from_json(data: dict):
@@ -44,15 +28,22 @@ class RegisterDto(_AuthBaseDto):
         data: request.json
         """
         RegisterDto.validate(
-            [
-                ("username", str),
-                ("password", str),
-            ],
             data,
+            {
+                "type": "object",
+                "properties": {
+                    "username": {"type": "string"},
+                    "password": {"type": "string"},
+                    "email": {"type": "string"},
+                    "firstName": {"type": "string"},
+                    "lastName": {"type": "string"},
+                },
+                "required": ["username", "password"],
+            },
         )
         return RegisterDto(
             username=data.get("username"),
-            password=data.get("password"),
+            hash=PasswordHasher().hash(data.get("password")),
             email=data.get("email"),
             firstName=data.get("firstName"),
             lastName=data.get("lastName"),
@@ -60,7 +51,7 @@ class RegisterDto(_AuthBaseDto):
 
 
 @dataclass(frozen=True)
-class LoginDto(_AuthBaseDto):
+class LoginDto(BaseDto):
     """DTO for managing user authentication"""
 
     username: str
@@ -72,7 +63,7 @@ class LoginDto(_AuthBaseDto):
         returns True if match, else raise BadRequest
         """
         try:
-            return self._ph.verify(password_hash, self.password)
+            return PasswordHasher().verify(password_hash, self.password)
         except VerifyMismatchError:
             raise BadRequest("Invalid credentials")
 
@@ -82,11 +73,15 @@ class LoginDto(_AuthBaseDto):
         data: request.json
         """
         LoginDto.validate(
-            [
-                ("username", str),
-                ("password", str),
-            ],
             data,
+            {
+                "type": "object",
+                "properties": {
+                    "username": {"type": "string"},
+                    "password": {"type": "string"},
+                },
+                "required": ["username", "password"],
+            },
         )
 
         return LoginDto(
