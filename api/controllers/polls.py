@@ -5,6 +5,8 @@ from flask_restful import Api, Resource
 from prisma.models import Poll, PollItem, User
 from api.models.poll_dtos import PollDto, PartialPollDto
 from api.middleware.authguard import requires_authentication
+from api.controllers import specs
+from flasgger import swag_from
 
 polls_bp = Blueprint("polls", __name__, url_prefix="/polls")
 polls_api = Api(polls_bp)
@@ -13,6 +15,7 @@ polls_api = Api(polls_bp)
 class UniquePollItems(Resource):
     """Route resource representing PollItems related to a Poll"""
 
+    @swag_from(specs.poll_specs)
     def get(self, poll: Poll):
         """Gets all PollItems within a specified Poll.
 
@@ -78,6 +81,7 @@ class PollCollection(Resource):
         data = [poll.model_dump(exclude=["userId", "user", "items"]) for poll in polls]
         return make_response(data)
 
+    @swag_from(specs.poll_specs)
     def post(self, user: User):
         """Creates a Poll.
 

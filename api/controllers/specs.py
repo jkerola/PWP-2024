@@ -25,6 +25,24 @@ login_specs = {
             }
         },
     },
+    "responses": {
+        "200": {
+            "description": "OK",
+        }
+    }
+}
+
+poll_specs = {
+    "requestBody": {
+        "required": True,
+        "content": {
+            "application/json": {
+                "schema": {
+                    "$ref": "#/components/schemas/poll",
+                }
+            }
+        },
+    }
 }
 
 profile_specs = {
