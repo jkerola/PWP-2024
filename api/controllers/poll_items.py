@@ -62,7 +62,7 @@ class PollItemCollection(Resource):
         if poll is None:
             raise NotFound("user has no polls matching given id")
         poll_item = PollItem.prisma().create(data=pollitem_dto.to_insertable())
-        return make_response(poll_item.model_dump(exclude=["poll"]))
+        return make_response(poll_item.model_dump(exclude=["poll"]), 201)
 
 
 class PollItemResource(Resource):

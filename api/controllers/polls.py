@@ -107,7 +107,7 @@ class PollCollection(Resource):
                 **poll_dto.to_insertable(),
             }
         )
-        return make_response(poll.model_dump(exclude=["user", "items"]))
+        return make_response(poll.model_dump(exclude=["user", "items"]), 201)
 
 
 polls_api.add_resource(PollCollection, "")
