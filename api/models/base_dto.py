@@ -14,14 +14,9 @@ class BaseDto:
 
     def to_insertable(self, include_null=False) -> dict:
         """Convert the DTO into a dict for use with Prisma"""
-        exclude_fields = ["schema"]
         if include_null:
-            return {k: v for k, v in asdict(self).items() if k not in exclude_fields}
-        return {
-            k: v
-            for k, v in asdict(self).items()
-            if v is not None and k not in exclude_fields
-        }
+            return asdict(self)
+        return {k: v for k, v in asdict(self).items() if v is not None}
 
     @staticmethod
     def validate(data: dict, schema: dict):
