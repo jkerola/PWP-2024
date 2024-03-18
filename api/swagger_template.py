@@ -8,6 +8,7 @@ template = {
             "register": schemas.register_schema,
             "login": schemas.login_schema,
             "poll": schemas.poll_schema,
+            "poll-item": schemas.poll_item_schema,
         },
         "examples": {},
         "securitySchemes": {

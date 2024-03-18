@@ -6,6 +6,8 @@ from werkzeug.exceptions import Forbidden, NotFound
 from prisma.models import PollItem, Poll, User
 from api.models.poll_dtos import PollItemDto
 from api.middleware.authguard import requires_authentication
+from api.controllers import specs
+from flasgger import swag_from
 
 poll_items_bp = Blueprint("pollitems", __name__, url_prefix="/pollitems")
 poll_items_api = Api(poll_items_bp)
@@ -16,6 +18,7 @@ class PollItemCollection(Resource):
 
     method_decorators = [requires_authentication]
 
+    @swag_from(specs.poll_item_specs)
     def get(self, user: User):
         """Returns a list of PollItems associated with the resource"""
         polls = (
@@ -35,6 +38,7 @@ class PollItemCollection(Resource):
 
         return make_response(data)
 
+    @swag_from(specs.poll_item_specs)
     def post(self, user: User):
         """Creates a PollItem.
 
@@ -73,6 +77,7 @@ class PollItemResource(Resource):
         "delete": [requires_authentication],
     }
 
+    @swag_from(specs.poll_item_specs)
     def get(self, poll_item: PollItem):
         """Gets a single PollItem based on id.
 
@@ -88,6 +93,7 @@ class PollItemResource(Resource):
 
         return make_response(poll_item.model_dump(exclude="poll"))
 
+    @swag_from(specs.poll_item_specs)
     def post(self, poll_item: PollItem):
         """Vote on a post!"""
         PollItem.prisma().update(
@@ -96,6 +102,7 @@ class PollItemResource(Resource):
         )
         return make_response("", 201)
 
+    @swag_from(specs.poll_item_specs)
     def patch(self, poll_item: PollItem, user: User):
         """Updates a PollItem with given id.
 
@@ -119,6 +126,7 @@ class PollItemResource(Resource):
         )
         return make_response(updated.model_dump(exclude="poll"))
 
+    @swag_from(specs.poll_item_specs)
     def delete(self, poll_item: PollItem, user: User):
         """Deletes a PollItem with given id.
 

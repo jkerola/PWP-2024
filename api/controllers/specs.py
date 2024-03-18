@@ -48,3 +48,16 @@ poll_specs = {
 profile_specs = {
     "security": ["Bearer"],
 }
+
+poll_item_specs = {
+    "requestBody": {
+        "required": True,
+        "content": {
+            "application/json": {
+                "schema": {
+                    "$ref": "#/components/schemas/poll-item",
+                }
+            }
+        },
+    }
+}
