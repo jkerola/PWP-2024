@@ -12,7 +12,7 @@ template = {
         },
         "examples": {},
         "securitySchemes": {
-            "Bearer": {
+            "BearerAuth": {
                 "type": "http",
                 "scheme": "bearer",
                 "bearerFormat": "JWT",

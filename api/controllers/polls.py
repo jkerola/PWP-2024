@@ -2,11 +2,11 @@
 
 from flask import make_response, request, Blueprint
 from flask_restful import Api, Resource
+from flasgger import swag_from
 from prisma.models import Poll, PollItem, User
 from api.models.poll_dtos import PollDto, PartialPollDto
 from api.middleware.authguard import requires_authentication
 from api.controllers import specs
-from flasgger import swag_from
 
 polls_bp = Blueprint("polls", __name__, url_prefix="/polls")
 polls_api = Api(polls_bp)

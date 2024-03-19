@@ -3,11 +3,11 @@
 from flask import make_response, request, Blueprint
 from flask_restful import Resource, Api
 from werkzeug.exceptions import Forbidden, NotFound
+from flasgger import swag_from
 from prisma.models import PollItem, Poll, User
 from api.models.poll_dtos import PollItemDto
 from api.middleware.authguard import requires_authentication
 from api.controllers import specs
-from flasgger import swag_from
 
 poll_items_bp = Blueprint("pollitems", __name__, url_prefix="/pollitems")
 poll_items_api = Api(poll_items_bp)
@@ -40,7 +40,8 @@ class PollItemCollection(Resource):
 
     @swag_from(specs.poll_item_specs)
     def post(self, user: User):
-        """Creates a PollItem.
+        """
+        Creates a PollItem.
 
         Send a POST request to /pollitems with:
 
@@ -48,13 +49,10 @@ class PollItemCollection(Resource):
         "description": Description of the PollItem.
 
         returns:
-
         {
-
             "description": Description of the created PollItem.
             "votes": Vote count of the created PollItem.
             "id": ID of the created PollItem.
-
         }"""
         pollitem_dto = PollItemDto.from_json(request.json)
         poll = Poll.prisma().find_unique(
