@@ -50,6 +50,7 @@ login_specs = {
 }
 
 poll_specs = {
+    "security": [{"BearerAuth": []}],
     "requestBody": {
         "required": True,
         "content": {
@@ -85,6 +86,7 @@ profile_specs = {
 }
 
 poll_item_specs = {
+    "security": [{"BearerAuth": []}],
     "summary": "Create a PollItem",
     "requestBody": {
         "required": True,
