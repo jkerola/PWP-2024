@@ -15,11 +15,11 @@ polls_api = Api(polls_bp)
 class UniquePollItems(Resource):
     """Route resource representing PollItems related to a Poll"""
 
-    @swag_from(specs.poll_specs)
+    @swag_from(specs.poll_with_converter_specs)
     def get(self, poll: Poll):
         """Gets all PollItems within a specified Poll.
 
-        Send a GET request to /polls/<poll_id:poll_id>/pollitems with:
+        Send a GET request to /polls/<poll_id>/pollitems with:
 
         "poll_id": Poll ID to query.
 
@@ -44,10 +44,15 @@ class PollResource(Resource):
         "get": [requires_authentication]
     }
 
-    def get(self, poll: Poll):
+    @swag_from(specs.poll_with_converter_specs)
+    def get(self, poll: Poll, user: User):
         """Get a single poll by id"""
-        return make_response(poll.model_dump(exclude=["user"]))
+        if poll.userId == user.id:
+            return make_response(poll.model_dump(exclude=["user"]))
+        else:
+            return make_response("", 403)
 
+    @swag_from(specs.poll_with_converter_specs)
     def delete(self, poll: Poll, user: User):
         """Delete a poll"""
         if poll.userId == user.id:
@@ -55,6 +60,7 @@ class PollResource(Resource):
             return make_response("", 204)
         return make_response("", 403)
 
+    @swag_from(specs.poll_patch_spec)
     def patch(self, poll: Poll, user: User):
         """Update a poll"""
         if poll.userId == user.id:
@@ -76,6 +82,7 @@ class PollCollection(Resource):
 
     method_decorators = {"post": [requires_authentication]}
 
+    @swag_from(specs.poll_without_body_specs)
     def get(self):
         """Returns all polls not marked private"""
         polls = Poll.prisma().find_many(where={"private": False})
