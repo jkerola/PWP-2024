@@ -41,6 +41,7 @@ class PollResource(Resource):
     method_decorators = {
         "delete": [requires_authentication],
         "patch": [requires_authentication],
+        "get": [requires_authentication]
     }
 
     def get(self, poll: Poll):
