@@ -39,7 +39,25 @@ poll_schema = {
     "required": ["title", "expires"],
 }
 
+poll_patch_schema = {
+    "type": "object",
+    "properties": {
+        "title": {"type": "string"},
+        "private": {"type": "boolean"},
+    },
+    "required": ["title", "private"],
+}
+
 poll_item_schema = {
+    "type": "object",
+    "properties": {
+        "pollId": {"type": "string"},
+        "description": {"type": "string"},
+    },
+    "required": ["pollId", "description"],
+}
+
+poll_item_patch_schema = {
     "type": "object",
     "properties": {
         "pollId": {"type": "string"},

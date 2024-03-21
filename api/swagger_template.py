@@ -9,6 +9,8 @@ template = {
             "login": schemas.login_schema,
             "poll": schemas.poll_schema,
             "poll-item": schemas.poll_item_schema,
+            "poll-patch": schemas.poll_patch_schema,
+            "poll-item-patch": schemas.poll_item_patch_schema,
         },
         "examples": {},
         "securitySchemes": {
