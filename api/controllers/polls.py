@@ -41,7 +41,7 @@ class PollResource(Resource):
     method_decorators = {
         "delete": [requires_authentication],
         "patch": [requires_authentication],
-        "get": [requires_authentication]
+        "get": [requires_authentication],
     }
 
     @swag_from(specs.poll_with_converter_specs)
@@ -49,8 +49,7 @@ class PollResource(Resource):
         """Get a single poll by id"""
         if poll.userId == user.id:
             return make_response(poll.model_dump(exclude=["user"]))
-        else:
-            return make_response("", 403)
+        return make_response("", 403)
 
     @swag_from(specs.poll_with_converter_specs)
     def delete(self, poll: Poll, user: User):
