@@ -36,3 +36,27 @@ def requires_authentication(f):
         return f(*args, **kwargs)
 
     return parse_authorization
+
+
+def optional_authorization(f):
+    """Decorator function which checks for authenticated users, but does not require it."""
+
+    @wraps(f)
+    def parse_optional_authorization(*args, **kwargs):
+        auth_type = None
+        token = None
+        try:
+            kwargs["user"] = None
+            if "Authorization" in request.headers:
+                auth_type, token = request.headers["Authorization"].split(" ")
+            if not token or auth_type != "Bearer":
+                return f(*args, **kwargs)
+            data = JWTService.verify_token(token)
+            user = db.user.find_unique({"id": data["sub"]})
+            if user:
+                kwargs["user"] = user
+        except (ValueError, DecodeError, Unauthorized):
+            kwargs["user"] = None
+        return f(*args, **kwargs)
+
+    return parse_optional_authorization
