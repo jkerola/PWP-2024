@@ -37,7 +37,7 @@ def test_can_patch_poll_item(client, poll_item, poll_item_data, auth):
 
 def test_can_delete_poll_item(client, poll_item, auth):
     response = client.delete(f"/pollitems/{poll_item.id}", headers=auth)
-    assert response.status_code == 200
+    assert response.status_code == 204
     assert PollItem.prisma().find_unique({"id": poll_item.id}) is None
 
 

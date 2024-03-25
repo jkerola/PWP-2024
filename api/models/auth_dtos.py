@@ -5,7 +5,7 @@ from argon2 import PasswordHasher
 from argon2.exceptions import VerifyMismatchError
 from werkzeug.exceptions import BadRequest
 from api.models.base_dto import BaseDto
-
+from api.models import schemas
 
 # In order to keep JSON -> Python conversion easily readable,
 # we use the original camelCase naming convention
@@ -27,20 +27,8 @@ class RegisterDto(BaseDto):
         """Creates a new Dto from request.json
         data: request.json
         """
-        RegisterDto.validate(
-            data,
-            {
-                "type": "object",
-                "properties": {
-                    "username": {"type": "string"},
-                    "password": {"type": "string"},
-                    "email": {"type": "string"},
-                    "firstName": {"type": "string"},
-                    "lastName": {"type": "string"},
-                },
-                "required": ["username", "password"],
-            },
-        )
+        RegisterDto.validate(data, schemas.register_schema)
+
         return RegisterDto(
             username=data.get("username"),
             hash=PasswordHasher().hash(data.get("password")),
@@ -72,17 +60,7 @@ class LoginDto(BaseDto):
         """Creates a new DTO from json
         data: request.json
         """
-        LoginDto.validate(
-            data,
-            {
-                "type": "object",
-                "properties": {
-                    "username": {"type": "string"},
-                    "password": {"type": "string"},
-                },
-                "required": ["username", "password"],
-            },
-        )
+        LoginDto.validate(data, schemas.login_schema)
 
         return LoginDto(
             username=data.get("username"),

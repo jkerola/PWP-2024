@@ -2,8 +2,7 @@
 
 from dataclasses import asdict
 from werkzeug.exceptions import BadRequest
-from jsonschema import validate, FormatChecker
-from jsonschema.exceptions import ValidationError, FormatError
+import jsonschema
 
 # In order to keep JSON -> Python conversion easily readable,
 # we use the original camelCase naming convention
@@ -23,17 +22,17 @@ class BaseDto:
     def validate(data: dict, schema: dict):
         """Validate the data properties
         data: request.json
-        props: ex: [('username', str)]
+        schema: JSON-schema dict
 
         raises BadRequest error if invalid
         """
         try:
-            validate(
+            jsonschema.validate(
                 instance=data,
                 schema=schema,
-                format_checker=FormatChecker(),
+                format_checker=jsonschema.FormatChecker(),
             )
-        except ValidationError as e:
+        except jsonschema.exceptions.ValidationError as e:
             raise BadRequest(e.message)
-        except FormatError as e:
+        except jsonschema.exceptions.FormatError as e:
             raise BadRequest(e.message)

@@ -3,8 +3,9 @@
 from datetime import datetime
 from dataclasses import dataclass
 from api.models.base_dto import BaseDto
+from api.models import schemas
 
-# In order to keep JSON -> Python conversion easily readable,'
+# In order to keep JSON -> Python conversion easily readable,
 # we use the original camelCase naming convention
 # pylint: disable=invalid-name
 
@@ -21,17 +22,7 @@ class PollItemDto(BaseDto):
         """Create a new DTO from json
         data: request.json
         """
-        PollItemDto.validate(
-            data,
-            {
-                "type": "object",
-                "properties": {
-                    "pollId": {"type": "string"},
-                    "description": {"type": "string"},
-                },
-                "required": ["pollId", "description"],
-            },
-        )
+        PollItemDto.validate(data, schemas.poll_item_schema)
 
         return PollItemDto(
             pollId=data.get("pollId"),
@@ -54,20 +45,7 @@ class PollDto(BaseDto):
         """Create a new DTO from json
         data: request.json
         """
-        PollDto.validate(
-            data,
-            {
-                "type": "object",
-                "properties": {
-                    "title": {"type": "string"},
-                    "expires": {"type": "string", "format": "date-time"},
-                    "description": {"type": "string"},
-                    "multipleAnswers": {"type": "boolean"},
-                    "private": {"type": "boolean"},
-                },
-                "required": ["title", "expires"],
-            },
-        )
+        PollDto.validate(data, schemas.poll_schema)
 
         return PollDto(
             description=data.get("description"),
@@ -87,19 +65,7 @@ class PartialPollDto(PollDto):
         """Create a new DTO from json
         data: request.json
         """
-        PollDto.validate(
-            data,
-            {
-                "type": "object",
-                "properties": {
-                    "title": {"type": "string"},
-                    "expires": {"type": "string", "format": "date-time"},
-                    "description": {"type": "string"},
-                    "multipleAnswers": {"type": "boolean"},
-                    "private": {"type": "boolean"},
-                },
-            },
-        )
+        PollDto.validate(data, schemas.partial_poll_schema)
 
         return PollDto(
             description=data.get("description"),

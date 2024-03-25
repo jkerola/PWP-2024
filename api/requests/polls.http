@@ -25,7 +25,6 @@ Content-Type: application/json
 
 ###
 # @ref poll
-
 GET /polls/{{poll.id}}/pollitems
 Content-Type: application/json
 
