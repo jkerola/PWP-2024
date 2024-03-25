@@ -54,7 +54,6 @@ class PollResource(Resource):
     @swag_from(specs.poll_with_converter_specs)
     def get(self, poll: Poll, user: User):
         """Get a single poll by id"""
-        print("gets to route")
         if poll.private:
             if user is None:
                 return make_response("", 403)
