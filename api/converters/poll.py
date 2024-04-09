@@ -4,7 +4,8 @@ from werkzeug.routing import BaseConverter
 from werkzeug.exceptions import NotFound
 from prisma.models import Poll
 
-
+# Impressed by the converter example found in exercise 2
+# https://lovelace.oulu.fi/ohjelmoitava-web/ohjelmoitava-web/implementing-rest-apis-with-flask/
 class PollConverter(BaseConverter):
     """Converts the poll_id url-parameter into a Poll"""
 
