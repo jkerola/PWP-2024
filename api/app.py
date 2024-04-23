@@ -1,6 +1,7 @@
 """Module for configuring the Flask application"""
 
 from flask import Flask
+from flask_cors import CORS
 from werkzeug.exceptions import HTTPException
 from flasgger import Swagger
 from api.controllers.auth import auth_bp
@@ -27,6 +28,7 @@ def create_app() -> Flask:
         "uiversion": 3,
         "openapi": "3.0.3",
     }
+    CORS(app)
     return app
 
 
