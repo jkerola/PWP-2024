@@ -89,12 +89,25 @@ class PollResource(Resource):
 class PollCollection(Resource):
     """Resource representing all polls"""
 
-    method_decorators = {"post": [requires_authentication]}
+    method_decorators = {
+        "post": [requires_authentication],
+        "get": [optional_authorization],
+    }
 
     @swag_from(specs.poll_without_body_specs)
-    def get(self):
+    def get(self, user: User):
         """Returns all polls not marked private"""
-        polls = Poll.prisma().find_many(where={"private": False})
+        if user:
+            polls = Poll.prisma().find_many(
+                where={
+                    "OR": [
+                        {"private": False},
+                        {"userId": user.id},
+                    ]
+                }
+            )
+        else:
+            polls = Poll.prisma().find_many(where={"private": False})
         data = [poll.model_dump(exclude=["userId", "user", "items"]) for poll in polls]
         return make_response(data)
 

@@ -1,26 +1,48 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
 export const Poll = () => {
   const { pollId } = useParams();
   const [poll, setPoll] = useState(Object);
   const [items, setItems] = useState([]);
-
+  const token = useSelector((state) => state.auth.token);
   const getPollItems = (pollId) => {
     axios
-      .get("http://localhost:5000/polls/" + pollId + "/pollitems")
+      .get("http://localhost:5000/polls/" + pollId + "/pollitems", {
+        headers: token
+          ? {
+              Authorization: `Bearer ${token}`,
+            }
+          : null,
+      })
       .then(({ data }) => setItems(data))
       .catch((error) => console.error(error.message));
   };
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/polls/" + pollId)
+      .get("http://localhost:5000/polls/" + pollId, {
+        headers: token
+          ? {
+              Authorization: `Bearer ${token}`,
+            }
+          : null,
+      })
       .then(({ data }) => setPoll(data))
       .catch((error) => console.error(error.message));
-    getPollItems(pollId);
-  }, [pollId]);
+    axios
+      .get("http://localhost:5000/polls/" + pollId + "/pollitems", {
+        headers: token
+          ? {
+              Authorization: `Bearer ${token}`,
+            }
+          : null,
+      })
+      .then(({ data }) => setItems(data))
+      .catch((error) => console.error(error.message));
+  }, [pollId, token]);
 
   return (
     <div>

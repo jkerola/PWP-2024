@@ -4,6 +4,10 @@
 GET /polls
 
 ###
+GET /polls
+Authorization: Bearer {{ login.access_token }}
+
+###
 # @name poll
 # @ref profile
 # @ref login
