@@ -64,29 +64,47 @@ Resources allocation
 
 ## Meeting 3.
 
-- **DATE:**
-- **ASSISTANTS:**
+- **DATE: 25th March 2024**
+- **ASSISTANTS: Ivan Sanchez Milara**
 
 ### Minutes
 
-_Summary of what was discussed during the meeting_
+Meeting lasted around 40 minutes. Point of the meeting was to recieve feedback for deliverable 3 - API Implementation. We did not have time to test the functionality of our API implementation during the meeting. Other than this, we recieved feedback on what we should improve for the final delivery. The main issues that came up during the meeting were: low test coverage, wiki/documentation needs more explanation for addressability and authentication. 
 
 ### Action points
 
-_List here the actions points discussed with assistants_
+- Check that implementation works in the next meeting
+
+Wiki report
+  - Provide explanations for why the system is addressable
+  - Explain why PATCH is used instead of PUT
+  - Explain how authentication was implemented to ensure that the system is stateless. How to get the keys and when keys are used?
+
+Basic implementation
+- Add references for code that was taken from exercises
+- Explain converters in more detail
+- PollItems and Polls have low test coverage. Especially error situations (409, 404, 400...) are not tested.
+- Update instructions on how to run the API and tests.
+
+
 
 ## Meeting 4.
 
-- **DATE:**
-- **ASSISTANTS:**
+- **DATE: 10th April 2024**
+- **ASSISTANTS: Mika Oja**
 
 ### Minutes
 
-_Summary of what was discussed during the meeting_
+Duration of the meeting was 20 minutes. Point of the meeting was to recieve feedback for deliverable 4 - API documentation and hypermedia. We had some issues that need addressing: all GET requests are missing responses, some error codes are missing (415), state diagram needs to be reworked. 
 
 ### Action points
 
-_List here the actions points discussed with assistants_
+Documentation
+- Missing examples from all GET requests, so need to add these
+- Certain response codes are missing, such as 415. These need to be added
+
+Hypermedia design
+- Current diagram is not a state diagram. This needs to be reworked.
 
 ## Midterm meeting
 
