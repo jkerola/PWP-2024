@@ -9,6 +9,7 @@ export const Landing = (props) => {
   const [password, setPassword] = useState("");
   const token = useSelector((state) => state.auth.token);
   const dispatch = useDispatch();
+
   const handleSubmit = (event) => {
     event.preventDefault();
     axios
@@ -18,6 +19,7 @@ export const Landing = (props) => {
       })
       .catch((error) => console.error(error.message));
   };
+
   return (
     <div>
       <h2>Polls API Client demo</h2>
@@ -50,9 +52,11 @@ export const Landing = (props) => {
         </form>
       )}
       <div>
-        <p>
-          No account? <Link to="/register">Register here!</Link>
-        </p>
+        {!token && (
+          <p>
+            No account? <Link to="/register">Register here!</Link>
+          </p>
+        )}
       </div>
     </div>
   );

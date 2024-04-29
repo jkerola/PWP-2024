@@ -5,6 +5,7 @@ import { Poll } from "./components/Poll";
 import { Polls } from "./components/Polls";
 import { Layout } from "./components/Layout";
 import { Register } from "./components/Register";
+import { NewPoll } from "./components/NewPoll";
 function App() {
   return (
     <BrowserRouter>
@@ -13,7 +14,8 @@ function App() {
           <Route index element={<Landing />} />
           <Route path="polls" element={<Polls />} />
           <Route path="/polls/:pollId" element={<Poll />} />
-          <Route path="register" element={<Register />} />{" "}
+          <Route path="/polls/new" element={<NewPoll />} />
+          <Route path="register" element={<Register />} />
         </Route>
       </Routes>
     </BrowserRouter>

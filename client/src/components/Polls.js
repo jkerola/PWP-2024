@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export const Polls = () => {
   const [polls, setPolls] = useState([]);
+  const token = useSelector((state) => state.auth.token);
   useEffect(() => {
     axios
       .get("http://localhost:5000/polls")
@@ -20,6 +22,7 @@ export const Polls = () => {
           </li>
         ))}
       </ul>
+      {token && <Link to="/polls/new">Create a new poll</Link>}
     </div>
   );
 };
