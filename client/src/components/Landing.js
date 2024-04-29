@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { storeToken, removeToken } from "../store";
+import { Link } from "react-router-dom";
 
 export const Landing = (props) => {
   const [username, setUsername] = useState("");
@@ -48,6 +49,11 @@ export const Landing = (props) => {
           <input type="submit" value="Authenticate" />
         </form>
       )}
+      <div>
+        <p>
+          No account? <Link to="/register">Register here!</Link>
+        </p>
+      </div>
     </div>
   );
 };
