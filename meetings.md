@@ -19,28 +19,28 @@ Duration of the meeting was 30 minutes. The agenda of the meeting was to receive
 
 RESTful API description
 
-- Focuses too much on technicalities. Focus more into motivating the API and explain it a bit more in detail. ✅
-- Wrong terminology. Avoid terms like login or public link that are more referred to applications. Authentication instead of registered users. ✅ (recheck this)
-- Architecture not needed in this section. ✅
+- [x] Focuses too much on technicalities. Focus more into motivating the API and explain it a bit more in detail.
+- [x] Wrong terminology. Avoid terms like login or public link that are more referred to applications. Authentication instead of registered users.
+- [x] Architecture not needed in this section.
 
 Main concepts and relations
 
-- Make a new graph. Take example from lecture 2 slides - Forum Resource hierarchy.
-- Old graph can be moved into deliverable 2.
-- Focuses too much on technical concepts. **Focus should be on the main concepts and relations**. Explanation should be altered to be something similar to the second paragraph of this section (To create a poll...).
-- Improve wording at places. Remove words like "database" etc.
+- [x] Make a new graph. Take example from lecture 2 slides - Forum Resource hierarchy.
+- [x] Old graph can be moved into deliverable 2.
+- [ ] Focuses too much on technical concepts. **Focus should be on the main concepts and relations**. Explanation should be altered to be something similar to the second paragraph of this section (To create a poll...).
+- [ ] Improve wording at places. Remove words like "database" etc.
 
 API uses
 
-- Must add external service.
-- Auxiliary service - check Lovelace
+- [ ] Must add external service.
+- [ ] Auxiliary service - check Lovelace
 
 Related work
 
-- Explain strawpoll better.
-- Add example of a client, for example frontend.
+- [ ] Explain strawpoll better.
+- [ ] Add example of a client, for example frontend.
 
-Update resources allocation if information is incorrect.
+- [ ] Update resources allocation if information is incorrect.
 
 ## Meeting 2.
 
@@ -55,12 +55,12 @@ Duration of the meeting was 25 minutes. The agenda of the meeting was to receive
 
 Database design
 
-- `Role Enumeration` can be moved into `User model`.
-- Improve `Restrictions` column's REGEX and make sure `schema.prisma` matches it.
+- [ ] `Role Enumeration` can be moved into `User model`.
+- [ ] Improve `Restrictions` column's REGEX and make sure `schema.prisma` matches it.
 
 Resources allocation
 
-- Update Resources allocation table if information is not correct.
+- [ ] Update Resources allocation table if information is not correct.
 
 ## Meeting 3.
 
@@ -73,18 +73,18 @@ Meeting lasted around 40 minutes. Point of the meeting was to recieve feedback f
 
 ### Action points
 
-- Check that implementation works in the next meeting
+- [ ] Check that implementation works in the next meeting
 
 Wiki report
-  - Provide explanations for why the system is addressable
-  - Explain why PATCH is used instead of PUT
-  - Explain how authentication was implemented to ensure that the system is stateless. How to get the keys and when keys are used?
+  - [ ] Provide explanations for why the system is addressable
+  - [ ] Explain why PATCH is used instead of PUT
+  - [ ] Explain how authentication was implemented to ensure that the system is stateless. How to get the keys and when keys are used?
 
 Basic implementation
-- Add references for code that was taken from exercises
-- Explain converters in more detail
-- PollItems and Polls have low test coverage. Especially error situations (409, 404, 400...) are not tested.
-- Update instructions on how to run the API and tests.
+- [ ] Add references for code that was taken from exercises
+- [ ] Explain converters in more detail
+- [ ] PollItems and Polls have low test coverage. Especially error situations (409, 404, 400...) are not tested.
+- [ ] Update instructions on how to run the API and tests.
 
 
 
@@ -100,11 +100,11 @@ Duration of the meeting was 20 minutes. Point of the meeting was to recieve feed
 ### Action points
 
 Documentation
-- Missing examples from all GET requests, so need to add these
-- Certain response codes are missing, such as 415. These need to be added
+- [ ] Missing examples from all GET requests, so need to add these
+- [ ] Certain response codes are missing, such as 415. These need to be added
 
 Hypermedia design
-- Current diagram is not a state diagram. This needs to be reworked.
+- [ ] Current diagram is not a state diagram. This needs to be reworked.
 
 ## Midterm meeting
 
