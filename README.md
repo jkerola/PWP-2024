@@ -30,6 +30,12 @@ API directory contains the flask backend.
 
 # Usage
 
+Fastest way to start the whole project (client, API and database):
+
+```shell
+make up
+```
+
 Easiest way to get this up and running is to use podman/docker:
 
 ```shell
