@@ -1,0 +1,27 @@
+@host=http://localhost:5001
+
+###
+GET /users
+Content-Type: application/json
+
+
+###
+# @name add_user
+@userId={{ $input user id }}
+POST /users
+Content-Type: application/json
+
+{
+    "userId": "{{ userId }}"
+}
+
+
+### 
+# @name authenticate
+@userId={{ $input user id }}
+POST /auth
+Content-Type: application/json
+
+{
+    "userId": "{{ userId }}"
+}
