@@ -10,10 +10,10 @@ db:
 flask:
 	$(VENV) pushd api && pip install -r requirements.txt && prisma generate && prisma db push && flask run
 
-client:
+clientn:
 	pushd client && nohup npm start &
     
-up: db client flask
+up: db clientn flask
 	echo "Done!"
 
 tests:
