@@ -11,7 +11,7 @@ export const NewPoll = () => {
   const [expires, setExpires] = useState(null);
   const token = useSelector((state) => state.auth.token);
 
-  const [inputs, setInputs] = useState([{ itemDescription: "" }]);
+  const [inputs, setInputs] = useState([]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -28,13 +28,13 @@ export const NewPoll = () => {
 
   const handleNewItemInput = () => {
     const newInputs = [...inputs];
-    newInputs.push({ itemDescription: "" });
+    newInputs.push("");
     setInputs(newInputs);
   };
 
   const handleInputChange = (index, value) => {
     const newInputs = [...inputs];
-    newInputs[index].itemDescription = value;
+    newInputs[index] = value;
     setInputs(newInputs);
   };
 
@@ -67,24 +67,25 @@ export const NewPoll = () => {
     return new Promise((resolve, reject) => {
       setError(null);
       setMessage(null);
-
-      const itemData = {
-        pollId,
-        description,
-      };
-      axios
-        .post("http://localhost:5000/pollitems", itemData, {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-        .then(() => {
-          setMessage("Poll created");
-          resolve();
-        })
-        .catch((error) => {
-          console.error(error);
-          setError(error.response.data.message);
-          reject(error);
-        });
+      for (const index in inputs) {
+        const itemData = {
+          pollId,
+          description: inputs[index],
+        };
+        axios
+          .post("http://localhost:5000/pollitems", itemData, {
+            headers: { Authorization: `Bearer ${token}` },
+          })
+          .then(() => {
+            setMessage("Poll created");
+            resolve();
+          })
+          .catch((error) => {
+            console.error(error);
+            setError(error.response.data.message);
+            reject(error);
+          });
+      }
     });
   };
 
@@ -121,7 +122,7 @@ export const NewPoll = () => {
                 <input
                   placeholder="new item"
                   type="text"
-                  value={input.itemDescription}
+                  value={input}
                   onChange={(e) => {
                     handleInputChange(index, e.target.value);
                   }}
