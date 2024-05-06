@@ -23,6 +23,7 @@ export const Polls = () => {
       })
       .catch((error) => console.error(error.message));
   }, [token]);
+
   return (
     <div>
       <h3>Current available polls</h3>

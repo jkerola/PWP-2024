@@ -37,7 +37,13 @@ export const Landing = (props) => {
       <p>Created with React.</p>
       {token && (
         <div>
-          {user && <p>Welcome {user.username}</p>}
+          {user && (
+            <p>
+              Welcome {user.username}
+              <br />
+              Your id is {user.id}
+            </p>
+          )}
           {!user && <p>Welcome, ...</p>}
           <input
             type="button"
