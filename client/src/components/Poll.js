@@ -47,7 +47,7 @@ export const Poll = () => {
   return (
     <div>
       <h2>{poll.title}</h2>
-      <p>{poll.id}</p>
+      <p>{poll.description}</p>
       <PollItems items={items} updateCallback={() => getPollItems(pollId)} />
     </div>
   );
