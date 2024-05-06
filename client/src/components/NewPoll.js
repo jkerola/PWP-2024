@@ -20,6 +20,9 @@ export const NewPoll = () => {
     await addPollItems(id);
   };
 
+  // add input fields on button click
+  // followed tutorial
+  // https://dev.to/okafor__mary/how-to-dynamically-add-input-fields-on-button-click-in-reactjs-5298
   const handleDeleteInput = (index) => {
     const newInputs = [...inputs];
     newInputs.splice(index, 1);
