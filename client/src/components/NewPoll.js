@@ -17,7 +17,7 @@ export const NewPoll = () => {
     event.preventDefault();
     const response = await createPoll();
     const id = response.id;
-    const itemResponse = await addPollItems(id);
+    await addPollItems(id);
   };
 
   const handleDeleteInput = (index) => {
@@ -45,7 +45,7 @@ export const NewPoll = () => {
       const data = {
         title,
         description,
-        expires,
+        expires: new Date(expires).toISOString(),
       };
 
       axios
@@ -107,9 +107,10 @@ export const NewPoll = () => {
             onChange={(e) => setDescription(e.target.value)}
           />
           <br />
+          <label>expires </label>
           <input
             placeholder="expires"
-            type="text"
+            type="date"
             onChange={(e) => setExpires(e.target.value)}
           />
           <br />
