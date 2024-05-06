@@ -7,6 +7,7 @@ export const Polls = () => {
   const [polls, setPolls] = useState([]);
   const [privatePolls, setPrivatePolls] = useState([]);
   const token = useSelector((state) => state.auth.token);
+
   useEffect(() => {
     axios
       .get("http://localhost:5000/polls", {

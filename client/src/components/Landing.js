@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { storeToken, removeToken } from "../store";
+import { storeToken, removeToken, storeUser, removeUser } from "../store";
 import { Link } from "react-router-dom";
 
 export const Landing = (props) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const token = useSelector((state) => state.auth.token);
+  const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
 
   const handleSubmit = (event) => {
@@ -16,7 +17,17 @@ export const Landing = (props) => {
       .post("http://localhost:5000/auth/login", { username, password })
       .then(({ data }) => {
         dispatch(storeToken(data.access_token));
+        getProfile(data.access_token);
       })
+      .catch((error) => console.error(error.message));
+  };
+
+  const getProfile = (token) => {
+    axios
+      .get("http://localhost:5000/auth/profile", {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then(({ data }) => dispatch(storeUser(data)))
       .catch((error) => console.error(error.message));
   };
 
@@ -26,11 +37,15 @@ export const Landing = (props) => {
       <p>Created with React.</p>
       {token && (
         <div>
-          <p>You are logged in.</p>{" "}
+          {user && <p>Welcome {user.username}</p>}
+          {!user && <p>Welcome, ...</p>}
           <input
             type="button"
             value="Logout"
-            onClick={() => dispatch(removeToken())}
+            onClick={() => {
+              dispatch(removeToken());
+              dispatch(removeUser());
+            }}
           />
         </div>
       )}
