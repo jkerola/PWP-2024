@@ -19,9 +19,5 @@ Content-Type: application/json
 ### 
 # @name authenticate
 @userId={{ $input user id }}
-POST /auth
+GET /auth/{{userId}}
 Content-Type: application/json
-
-{
-    "userId": "{{ userId }}"
-}

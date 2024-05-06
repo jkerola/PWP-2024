@@ -10,6 +10,9 @@ export const Layout = () => {
           <li>
             <Link to="/polls">Polls</Link>
           </li>
+          <li>
+            <Link to="/users">User Management</Link>
+          </li>
         </ul>
       </nav>
       <hr />

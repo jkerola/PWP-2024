@@ -78,7 +78,7 @@ def requires_strong_authentication(f):
                 raise Unauthorized("unauthorized request")
             data = JWTService.verify_token(token)
             user = db.user.find_unique({"id": data["sub"]})
-            response = requests.get("http://localhost:5001/auth", {"userId": user.id})
+            response = requests.get(f"http://localhost:5001/auth/{user.id}")
             if response.status_code != 200:
                 raise Forbidden("forbidden request")
             if not user:

@@ -12,9 +12,8 @@ def get_user_id(data: dict) -> str:
     return data["userId"]
 
 
-@auth_controller.route("/auth", methods=["POST"])
-def authenticate():
-    user_id = get_user_id(request.json)
+@auth_controller.route("/auth/<user_id>", methods=["GET"])
+def authenticate(user_id: str):
     if user_id in users:
         return Response(status=200)
     else:

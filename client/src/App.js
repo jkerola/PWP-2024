@@ -6,6 +6,7 @@ import { Polls } from "./components/Polls";
 import { Layout } from "./components/Layout";
 import { Register } from "./components/Register";
 import { NewPoll } from "./components/NewPoll";
+import { Users } from "./components/Users";
 function App() {
   return (
     <BrowserRouter>
@@ -16,6 +17,7 @@ function App() {
           <Route path="/polls/:pollId" element={<Poll />} />
           <Route path="/polls/new" element={<NewPoll />} />
           <Route path="register" element={<Register />} />
+          <Route path="users" element={<Users />} />
         </Route>
       </Routes>
     </BrowserRouter>
