@@ -22,3 +22,7 @@ services:
     image: docker.io/library/adminer
     ports:
       - 8080:8080
+  strong_auth:
+    build: strong_auth
+    ports:
+      - 5001:5001

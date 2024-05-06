@@ -1,0 +1,13 @@
+# @import auth.http
+###
+# @name getUsers
+# @ref login
+GET /users
+Authorization: Bearer {{ login.access_token }}
+
+
+###
+# @ref login
+@userId={{$input user id}}
+DELETE /users/{{userId}}
+Authorization: Bearer {{ login.access_token }}

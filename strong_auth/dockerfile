@@ -1,0 +1,14 @@
+FROM node:alpine
+
+# Install necessities
+RUN apk upgrade
+RUN apk add python3 py3-pip
+
+# Copy files
+workdir auth
+copy . .
+RUN pip install -r requirements.txt --break-system-packages
+
+
+# Run server
+ENTRYPOINT ["python3", "app.py"]
